@@ -2,20 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class platformEdge : MonoBehaviour
+public class diceRoller : MonoBehaviour
 {
-	bool isTest=true;
 	// Start is called before the first frame update
 	void Start()
 	{
-		if(!isTest){
-			GetComponent<SpriteRenderer>().enabled=false;
-		}
-	}
 
+	}
+	int rollDice()
+	{
+		return Random.Range(1, 6);
+	}
 	// Update is called once per frame
 	void Update()
 	{
-		
+
 	}
 }
