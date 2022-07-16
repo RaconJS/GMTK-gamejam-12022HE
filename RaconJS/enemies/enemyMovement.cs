@@ -22,7 +22,7 @@ public class enemyMovement : MonoBehaviour
 	}
 	bool isActive;
 	public float start(){
-		rb.constraints&=~RigidbodyConstraints2D.FreezePositionX();
+		rb.constraints&=~RigidbodyConstraints2D.FreezePositionX;
 		isActive=true;
 		return actionLength;
 	}
@@ -30,7 +30,7 @@ public class enemyMovement : MonoBehaviour
 		isActive=false;
 		var v=rb.velocity;
 		rb.velocity=new Vector2(0,v.y);
-		rb.constraints|=RigidbodyConstraints2D.FreezePositionX();
+		rb.constraints|=RigidbodyConstraints2D.FreezePositionX;
 		Debug.Log("end move");
 	}
 	// Update is called once per frame
