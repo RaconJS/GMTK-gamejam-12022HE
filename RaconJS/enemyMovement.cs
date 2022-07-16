@@ -1,30 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class enemyMovement : MonoBehaviour
 {
+	public Rigidbody2D rb;
+	public float actionLeft=1;
+	float moveDirection=1;
 	enemyMovement em;
-	public float moveDirection;
-	Rigidbody2D rb;
+	GameObject obj;
+	float moveSpeed=2;
 	int edgeCollisions;
 	// Start is called before the first frame update
 	void Start()
 	{
-		rb=GetComponent<Rigidbody2D>();
+		//ASSUME: enemy is not touching  
+		edgeCollisions=0;
+		moveDirection=1f;
 	}
 	// Update is called once per frame
 	void Update()
 	{
-
+		var v=rb.velocity;
+		rb.velocity=new Vector2(moveDirection*moveSpeed,v.y);
 	}
 	void OnCollisionEnter2D(Collision2D col){
+		Debug.Log(col.gameObject.tag);
 		if(col.gameObject.tag=="edge"){
-			moveDirection*=-1;
+			if(edgeCollisions==0)moveDirection*=-1;
+			edgeCollisions++;
 		}
-		edgeCollisions++;
 	}
-	void OnColliderExit2D(){
-
+	void OnColliderExit2D(Collision2D col){
+		if(col.gameObject.tag=="edge"){
+			moveDirection--;
+		}
 	}
 }
