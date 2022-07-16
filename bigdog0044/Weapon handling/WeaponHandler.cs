@@ -21,7 +21,7 @@ public class WeaponHandler : MonoBehaviour
     {
         if (col.gameObject.tag == "Enemy")
         {
-            col.gameObject.SendMessage("ApplyDamage", 10);
+            col.gameObject.SendMessage("ApplyDamageEnemy", 10);
         }
     }
 }
