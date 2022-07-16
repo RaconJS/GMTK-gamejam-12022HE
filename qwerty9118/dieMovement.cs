@@ -15,10 +15,18 @@ public class dieMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    //void Update()
-    //{
-    //    rb.velocity += gravity / fps;
-    //}
+    void Update()
+    {
+        if (rb.velocity.magnitude < 0.1)
+        {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(transform.position);
+            if (Physics.Raycast(ray, out hit))
+            {
+                Debug.Log(hit.triangleIndex);
+            }
+        }
+    }
 
     private void FixedUpdate()
     {
