@@ -5,11 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class movePlayer : MonoBehaviour
 {
-    public int nrg;
     public bool isMoving;
+    public bool isActive;
     public KeyCode keyReload = KeyCode.R;
     public KeyCode keyLaunch = KeyCode.E;
-    public KeyCode keyStartMove = KeyCode.Q;
     public KeyCode keyUp = KeyCode.UpArrow;
     public KeyCode keyDown = KeyCode.DownArrow;
     public KeyCode keyLeft = KeyCode.LeftArrow;
@@ -17,15 +16,19 @@ public class movePlayer : MonoBehaviour
     private Vector2 direction;
     private Rigidbody2D rb;
 
+    //RaconJS var's
+    public float maxEnergy = 4f;
+    bool isLanding;
+    float timeStartJump;
+
     // Start is called before the first frame update
     void Start()
     {
-        nrg = 10;
         isMoving = false;
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void StartMovement(){
+    public void StartMovement(){
         isMoving = true;
         direction = new Vector2(0, 0);
         GetComponent<Renderer>().material.SetColor("_Color", Color.red);
@@ -52,6 +55,7 @@ public class movePlayer : MonoBehaviour
     void Update(){
         if(isMoving)
         {
+            Vector2 oldDirection=direction;
              if(Input.GetKeyDown(keyLeft)){
                 direction.x -= 1;
                 Debug.Log(direction.x+", "+direction.y);
@@ -74,19 +78,25 @@ public class movePlayer : MonoBehaviour
             if (Input.GetKeyDown(keyLaunch))
             {
                 isMoving = false;
+                isLanding=true;
+                timeStartJump=Time.time;
                 rb.velocity = new Vector2(xMovement(direction.x), yMovement(direction.y));
                 GetComponent<Renderer>().material.SetColor("_Color", Color.white);
                 Debug.Log(rb.velocity.x + ", " + rb.velocity.y);
             }
+            if(direction.magnitude>maxEnergy){//raconJS
+                direction=oldDirection;
+            }
         }
-        else if (Input.GetKeyDown(keyStartMove))
-        {
-            StartMovement();
-        }
+        if(isLanding){
+            if(Time.time-timeStartJump>1){
 
+            }
+        }
         if(Input.GetKeyDown(keyReload))
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
+        isActive=isMoving||isLanding;
     }
 }
