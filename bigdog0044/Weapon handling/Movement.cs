@@ -17,7 +17,7 @@ public class Movement : MonoBehaviour
     {
         float xMove = Input.GetAxisRaw("Horizontal"); // d key changes value to 1, a key changes value to -1
         float zMove = Input.GetAxisRaw("Vertical"); // w key changes value to 1, s key changes value to -1
-        rb.velocity = new Vector3(xMove, rb.velocity.y, zMove) * speed; // Creates velocity in direction of value equal to keypress (WASD). rb.velocity.y deals with falling + jumping by setting velocity to y. 
-
+        transform.Translate(Vector3.forward * Time.deltaTime * speed * zMove);
+        transform.Translate(Vector3.right * Time.deltaTime * speed * xMove);
     }
 } 
