@@ -4,8 +4,7 @@ using UnityEngine;
 public class enemyMovement : MonoBehaviour
 {
 	public Rigidbody2D rb;
-	public float actionLeft=1;
-	float moveDirection=1;
+	public float moveDirection=1;
 	enemyMovement em;
 	GameObject obj;
 	float moveSpeed=2;
@@ -23,8 +22,8 @@ public class enemyMovement : MonoBehaviour
 		var v=rb.velocity;
 		rb.velocity=new Vector2(moveDirection*moveSpeed,v.y);
 	}
-	void OnCollisionEnter2D(Collision2D col){
-		Debug.Log(col.gameObject.tag);
+	void OnTriggerEnter2D(Collider2D col){
+		Debug.Log("asd");
 		if(col.gameObject.tag=="edge"){
 			if(edgeCollisions==0)moveDirection*=-1;
 			edgeCollisions++;
