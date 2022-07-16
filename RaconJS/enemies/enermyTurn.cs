@@ -5,44 +5,74 @@ using UnityEngine;
 public class enermyTurn : MonoBehaviour
 {
 	// Start is called before the first frame update
-	public GameObject enermyTurnHandler;
+	//:
+	public GameObject enermyTurnHandlerObj;
+		int maxActions=3;//public
+	//---
+	enermiesTurn enermyTurnHandler;
+	public int actionsLeft;
 	enemyMovement movePart;
 	en_attack attackPart;
-	float actionLeft;
-	int actionsLeft;
 	string action;//move,attack
+	public float actionLeft;
 	public string[] actions={"move","attack"};
 	void Start()
 	{
+		enermyTurnHandler=enermyTurnHandlerObj.GetComponent<enermiesTurn>();
 		movePart=GetComponent<enemyMovement>();
 		attackPart=GetComponent<en_attack>();
-		attackPart.enabled=false;
-		movePart.enabled=false;
+		actionsLeft=0;
+		actionLeft=0f;
 	}
 	// Update is called once per frame
+	public void endTurn(){
+		actionsLeft=0;
+	}
 	void Update()
 	{
 		if(actionLeft>0){
 			actionLeft-=Time.deltaTime;
 		}
-		if(actionLeft<=0&&actionsLeft>0){
-			pickNextAction();
+		if(actionLeft<=0){
+			endAction();
+			if(actionsLeft>0){
+				pickNextAction();
+			}
 		}
 	}
-	void pickNextAction(){
-		actionsLeft--;
-		actionLeft=1f;
-		action=actions[Random.Range(0,1)];
-		Debug.Log(action);
-		movePart.enabled=false;
-		attackPart.enabled=false;
+	bool oldState;
+	void gainActions(){
+		actionsLeft=maxActions;
+	}
+	void FixedUpdate(){//wait for turn-handler to tell enimies to move
+		bool newState=enermyTurnHandler.startTurn;
+		if(oldState!=newState&&newState){
+			gainActions();
+		}
+		oldState=enermyTurnHandler.startTurn;
+		if(actionsLeft>0||actionLeft>0f){
+			enermyTurnHandler.numOfActiveObjs++;
+		}
+	}
+	void endAction(){
 		switch(action){
-			case"move":{
-				movePart.enabled=true;
-			}break;
-			case"attack":{
-				attackPart.enabled=true;
-			}break;
+			case"move":movePart.stop();break;
+			case"attack":attackPart.stop();break;
+		}
+		action="";
+	}
+	void pickNextAction(){
+		action=actions[Random.Range(0,2)];
+		Debug.Log(action);
+		switch(action){
+			case"move":
+				actionsLeft--;
+				actionLeft=movePart.start();
+				break;
+			case"attack":
+				actionsLeft--;
+				actionLeft=attackPart.start();
+				break;
 		}
 	}
 	void endMovementAction(){
