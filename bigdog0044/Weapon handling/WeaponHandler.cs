@@ -9,15 +9,24 @@ public class WeaponHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (player == null)
+        {
+            GameObject.Find("player");
+        }
+
     }
+
+    private Vector3 player_position;
+    private string weapon_type;
+    private GameObject player;
 
     // Update is called once per frame
     void Update()
     {
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    //this sends a damage message for the health for the enemy
+    private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Enemy")
         {
@@ -26,3 +35,5 @@ public class WeaponHandler : MonoBehaviour
     }
 }
 
+
+ 
