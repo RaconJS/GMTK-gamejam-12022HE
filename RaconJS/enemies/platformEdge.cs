@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class movementX : MonoBehaviour
+public class platformEdge : MonoBehaviour
 {
+	bool isTest=false;
 	// Start is called before the first frame update
-	public ActionChooser chooser;
-	public void startMovement(){
-		Debug.Log("started movement");
-	}
 	void Start()
 	{
-		
+		if(!isTest){
+			GetComponent<SpriteRenderer>().enabled=false;
+		}
 	}
 
 	// Update is called once per frame
