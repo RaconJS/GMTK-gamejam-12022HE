@@ -12,6 +12,7 @@ public class enemyMovement : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
+		Debug.Log("morros");
 		//ASSUME: enemy is not touching  
 		edgeCollisions=0;
 		moveDirection=1f;
