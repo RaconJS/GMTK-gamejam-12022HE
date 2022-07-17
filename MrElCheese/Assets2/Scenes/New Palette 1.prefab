@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4115383280614376522}
   - component: {fileID: 6262656634332316883}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: New Palette 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,7 +27,6 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3353370689065168961}
   m_Father: {fileID: 0}
@@ -73,7 +72,6 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4115383280614376522}
   m_RootOrder: 0
@@ -100,10 +98,10 @@ Tilemap:
   m_AnimatedTiles: {}
   m_TileAssetArray:
   - m_RefCount: 1
-    m_Data: {fileID: 11400000, guid: 778c6ab720c90d844a85fd78ed6ac3f8, type: 2}
+    m_Data: {fileID: 11400000, guid: 12d104831d643d01ea9d93ad70bbcd1d, type: 2}
   m_TileSpriteArray:
   - m_RefCount: 1
-    m_Data: {fileID: 21300000, guid: 9755ad4593af9bf4481de58e7b2afc04, type: 3}
+    m_Data: {fileID: 21300000, guid: 1f0c6dae19c0aa0409c3fadabc08d4a5, type: 3}
   m_TileMatrixArray:
   - m_RefCount: 1
     m_Data:
@@ -161,7 +159,6 @@ TilemapRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 0
-  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
@@ -199,7 +196,7 @@ TilemapRenderer:
   m_Mode: 0
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
---- !u!114 &2006856347255009111
+--- !u!114 &7045835643125320222
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
