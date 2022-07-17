@@ -9,7 +9,7 @@ public class playerTurn : MonoBehaviour
 	public enermiesTurn turn;
     public KeyCode keyStartMove = KeyCode.Q;
     public KeyCode keyStartAttack = KeyCode.F;
-    public dieMovement diceRoller;
+    public DieLauncher diceRoller;
     int action;//0:move,1:fight
 	movePlayer mover;
 	playerFight fighter;
@@ -38,7 +38,7 @@ public class playerTurn : MonoBehaviour
 	}
 	void generateActions(){
 		waitingForRoll=true;
-		diceRoller.startRoll();
+		//diceRoller.startRoll();
 		{
 			waitingForRoll=false;
 			actionsLeft=Random.Range(1,6+1);

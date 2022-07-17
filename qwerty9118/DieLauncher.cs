@@ -17,7 +17,7 @@ public class DieLauncher : MonoBehaviour
         return result[0];
     }
 
-    private IEnumerable<int> rollDie()
+    IEnumerable<int> rollDie()
     {
         GameObject dieInstance = Instantiate(die, new Vector3(0, 0, -14), Random.rotation);
         while (dieInstance.GetComponent<dieMovement>().rolling)
@@ -27,7 +27,7 @@ public class DieLauncher : MonoBehaviour
         yield return dieInstance.GetComponent<dieMovement>().result;
     }
 
-    private void Update()
+    void Update()
     {
         if (Input.GetKeyDown(KeyCode.D))
         {
