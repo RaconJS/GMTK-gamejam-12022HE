@@ -6,6 +6,7 @@ public class SoundManagerScript : MonoBehaviour
 {
 
     public static AudioClip
+        music,
         enemyWalk,
         playerDamage,
         playerJump,
@@ -23,12 +24,16 @@ public class SoundManagerScript : MonoBehaviour
         enemyGrunt,
         pickUpItem,
         swordAttack;
+    public static bool
+        enemyWalking,
+        playerWalking;
     private static AudioSource audioSrc;
 
     // Start is called before the first frame update
     void Start()
     {
 
+        music = Resources.Load<AudioClip>("music");
         enemyWalk = Resources.Load<AudioClip>("enemyWalk");
         playerDamage = Resources.Load<AudioClip>("playerDamage");
         playerJump = Resources.Load<AudioClip>("playerJump");
@@ -49,6 +54,56 @@ public class SoundManagerScript : MonoBehaviour
 
         audioSrc = GetComponent<AudioSource>();
 
+        StartCoroutine(loopMusic());
+        StartCoroutine(loopPlayerWalk());
+        StartCoroutine(loopEnemyWalk());
+
+    }
+
+    IEnumerator loopMusic()
+    {
+        new WaitForSeconds(3);
+        while (true)
+        {
+            //audioSrc.PlayOneShot(music);
+            yield return new WaitForSeconds(music.length - 0.5f);
+        }
+    }
+
+    IEnumerator loopPlayerWalk()
+    {
+        while (true)
+        {
+            if (playerWalking)
+            {
+                audioSrc.PlayOneShot(playerWalk);
+                yield return new WaitForSeconds(playerWalk.length - 0.5f);
+            }
+        }
+    }
+
+    IEnumerator loopEnemyWalk()
+    {
+        while (true)
+        {
+            if (enemyWalking)
+            {
+                audioSrc.PlayOneShot(enemyWalk);
+                yield return new WaitForSeconds(enemyWalk.length - 0.5f);
+            }
+        }
+    }
+
+    public static void setWalking(bool isPlayer, bool state)
+    {
+        if (isPlayer)//type is player
+        {
+            playerWalking = state;
+        }
+        else//type is enemy
+        {
+            enemyWalking = state;
+        }
     }
 
     public static void playSound(string clip)
@@ -56,18 +111,18 @@ public class SoundManagerScript : MonoBehaviour
 
         switch (clip)
         {
-            case "enemyWalk":
-                audioSrc.PlayOneShot(enemyWalk);
-                break;
+            //case "enemyWalk":
+                //audioSrc.PlayOneShot(enemyWalk);
+                //break;
             case "playerDamage":
                 audioSrc.PlayOneShot(playerDamage);
                 break;
             case "playerJump":
                 audioSrc.PlayOneShot(playerJump);
                 break;
-            case "playerWalk":
-                audioSrc.PlayOneShot(playerWalk);
-                break;
+            //case "playerWalk":
+                //audioSrc.PlayOneShot(playerWalk);
+                //break;
             case "bonusSound":
                 audioSrc.PlayOneShot(bonusSound);
                 break;

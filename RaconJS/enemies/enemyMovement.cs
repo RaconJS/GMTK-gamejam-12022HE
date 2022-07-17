@@ -24,10 +24,12 @@ public class enemyMovement : MonoBehaviour
 	public float start(){
 		rb.constraints&=~RigidbodyConstraints2D.FreezePositionX;
 		isActive=true;
+		SoundManagerScript.setWalking(false, true);
 		return actionLength;
 	}
 	public void stop(){
 		isActive=false;
+		SoundManagerScript.setWalking(false, false);
 		var v=rb.velocity;
 		rb.velocity=new Vector2(0,v.y);
 		rb.constraints|=RigidbodyConstraints2D.FreezePositionX;
