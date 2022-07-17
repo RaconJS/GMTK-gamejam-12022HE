@@ -6,6 +6,7 @@ public class enermyTurn : MonoBehaviour
 {
 	// Start is called before the first frame update
 	//:
+	public int hp=24; 
 	public GameObject enermyTurnHandlerObj;
 		int maxActions=3;//public
 	//---
@@ -23,20 +24,44 @@ public class enermyTurn : MonoBehaviour
 		attackPart=GetComponent<en_attack>();
 		actionsLeft=0;
 		actionLeft=0f;
+		dieing=false;
 	}
 	// Update is called once per frame
 	public void endTurn(){
 		actionsLeft=0;
 	}
+	bool dieing;
+	float dieStartTime;
+	public float dieDuration=0.5f;
+	public void hurt (int damage){Debug.Log("hurt"+damage);
+		hp-=damage;
+		if(hp<=0)startDieing();
+	}
+	void startDieing(){Debug.Log("startDieing");
+		dieing=true;
+		dieStartTime=Time.time;
+	}
+	void animateDieing(float t){//0<t<1
+
+	}
 	void Update()
 	{
-		if(actionLeft>0){
-			actionLeft-=Time.deltaTime;
+		if(dieing){//dieing animation
+			float t=(Time.time-dieStartTime)/dieDuration;
+			animateDieing(t);
+			if(t>=1){
+				Destroy(gameObject);
+			}
 		}
-		if(actionLeft<=0){
-			endAction();
-			if(actionsLeft>0){
-				pickNextAction();
+		else {
+			if(actionLeft>0){
+				actionLeft-=Time.deltaTime;
+			}
+			if(actionLeft<=0){
+				endAction();
+				if(actionsLeft>0){
+					pickNextAction();
+				}
 			}
 		}
 	}
