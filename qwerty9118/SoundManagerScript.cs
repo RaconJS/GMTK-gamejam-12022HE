@@ -13,6 +13,12 @@ public class SoundManagerScript : MonoBehaviour
         bonusSound,
         bowFire,
         diceRoll,
+        diceRoll1,
+        diceRoll2,
+        diceRoll3,
+        diceRoll4,
+        diceRoll5,
+        diceRoll6,
         enemyBite,
         enemyGrunt,
         pickUpItem,
@@ -30,6 +36,12 @@ public class SoundManagerScript : MonoBehaviour
         bonusSound = Resources.Load<AudioClip>("bonusSound");
         bowFire = Resources.Load<AudioClip>("bowFire");
         diceRoll = Resources.Load<AudioClip>("diceRoll");
+        diceRoll1 = Resources.Load<AudioClip>("diceRoll1");
+        diceRoll2 = Resources.Load<AudioClip>("diceRoll2");
+        diceRoll3 = Resources.Load<AudioClip>("diceRoll3");
+        diceRoll4 = Resources.Load<AudioClip>("diceRoll4");
+        diceRoll5 = Resources.Load<AudioClip>("diceRoll5");
+        diceRoll6 = Resources.Load<AudioClip>("diceRoll6");
         enemyBite = Resources.Load<AudioClip>("enemyBite");
         enemyGrunt = Resources.Load<AudioClip>("enemyGrunt");
         pickUpItem = Resources.Load<AudioClip>("pickUpItem");
@@ -65,6 +77,24 @@ public class SoundManagerScript : MonoBehaviour
             case "diceRoll":
                 audioSrc.PlayOneShot(diceRoll);
                 break;
+            case "diceRoll1":
+                audioSrc.PlayOneShot(diceRoll1);
+                break;
+            case "diceRoll2":
+                audioSrc.PlayOneShot(diceRoll2);
+                break;
+            case "diceRoll3":
+                audioSrc.PlayOneShot(diceRoll3);
+                break;
+            case "diceRoll4":
+                audioSrc.PlayOneShot(diceRoll4);
+                break;
+            case "diceRoll5":
+                audioSrc.PlayOneShot(diceRoll5);
+                break;
+            case "diceRoll6":
+                audioSrc.PlayOneShot(diceRoll6);
+                break;
             case "enemyBite":
                 audioSrc.PlayOneShot(enemyBite);
                 break;
@@ -79,11 +109,5 @@ public class SoundManagerScript : MonoBehaviour
                 break;
         }
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
