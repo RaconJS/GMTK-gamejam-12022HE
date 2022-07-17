@@ -9450,6 +9450,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: playerPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 5328581664399951508, guid: 0084bc43794ab0a4e9f8160bc8b23e76, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7189703678288434047, guid: 0084bc43794ab0a4e9f8160bc8b23e76, type: 3}
       propertyPath: turn
       value: 

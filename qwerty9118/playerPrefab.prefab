@@ -396,6 +396,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Dice Gun
       objectReference: {fileID: 0}
+    - target: {fileID: 3041083881646154715, guid: 9508a0524557b2845bd2cd70e0ee41bd, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3041083881646154717, guid: 9508a0524557b2845bd2cd70e0ee41bd, type: 3}
       propertyPath: m_RootOrder
       value: 2
