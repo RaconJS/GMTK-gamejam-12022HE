@@ -9,6 +9,7 @@ public class dieMovement : MonoBehaviour
     public bool rolling;
     public bool startRoll;
     private DieLauncher dieLauncher;
+    private int diceSound;
 
     void Update()
     {
@@ -50,4 +51,14 @@ public class dieMovement : MonoBehaviour
     {
         GetComponent<Rigidbody>().velocity += new Vector3(0, 0, 9.85f) / 50;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (diceSound < 6)
+        {
+            diceSound++;
+        }
+        SoundManagerScript.playSound("diceRoll"+diceSound);
+    }
+
 }
