@@ -139,6 +139,7 @@ MonoBehaviour:
   rb: {fileID: 897189557130483404}
   actionLength: 1
   moveDirection: 1
+  isActive: 0
 --- !u!114 &7052684842657732291
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -151,12 +152,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e964fbd3b41c56d8083c8fcb5cfdd8a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 24
   enermyTurnHandlerObj: {fileID: 0}
   actionsLeft: 0
   actionLeft: 0
   actions:
   - move
   - attack
+  dieDuration: 0.5
 --- !u!114 &897189557130483402
 MonoBehaviour:
   m_ObjectHideFlags: 0
