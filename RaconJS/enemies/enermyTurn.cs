@@ -41,6 +41,7 @@ public class enermyTurn : MonoBehaviour
 	void startDieing(){Debug.Log("startDieing");
 		dieing=true;
 		dieStartTime=Time.time;
+		SoundManagerScript.setWalking(false, false);
 		SoundManagerScript.playSound("enemyGrunt");
 	}
 	void animateDieing(float t){//0<t<1
