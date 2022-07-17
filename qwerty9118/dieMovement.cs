@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Text.RegularExpressions;
 
 public class dieMovement : MonoBehaviour
 {
-    private Vector3 gravity;
     public bool rolling;
     public bool startRoll;
-    public int result;
+    private DieLauncher dieLauncher;
 
     void Update()
     {
@@ -32,9 +32,18 @@ public class dieMovement : MonoBehaviour
 
             Debug.Log(transform.GetChild(closestIndex).name);
 
+            dieLauncher.diceOutput.Add(int.Parse(Regex.Match(transform.GetChild(closestIndex).name, @"\d+").Value));
+
             rolling = false;
 
+            Destroy(gameObject, 5.0f);
+
         }
+    }
+
+    private void Awake()
+    {
+        dieLauncher = GameObject.Find("Dice Gun").GetComponent<DieLauncher>();
     }
 
     private void FixedUpdate()
