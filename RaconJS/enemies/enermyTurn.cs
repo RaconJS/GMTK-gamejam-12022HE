@@ -35,11 +35,13 @@ public class enermyTurn : MonoBehaviour
 	public float dieDuration=0.5f;
 	public void hurt (int damage){Debug.Log("hurt"+damage);
 		hp-=damage;
-		if(hp<=0)startDieing();
+		//SoundManagerScript.playSound("enemyBite");
+		if (hp<=0)startDieing();
 	}
 	void startDieing(){Debug.Log("startDieing");
 		dieing=true;
 		dieStartTime=Time.time;
+		SoundManagerScript.playSound("enemyGrunt");
 	}
 	void animateDieing(float t){//0<t<1
 

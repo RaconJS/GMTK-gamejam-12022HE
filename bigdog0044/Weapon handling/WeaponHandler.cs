@@ -36,16 +36,20 @@ public class WeaponHandler : MonoBehaviour
 	private void OnTriggerEnter2D(Collider2D col)
 	{
 		var part=col.gameObject.GetComponent<enermyTurn>();
-		if (part!=null)
-		//if(playerHand.GetComponent<spin>().isSpinning)
+		if (part != null)
 		{
-			part.hurt(weaponDamage);
-			SoundManagerScript.playSound("swordAttack");
-		}
-		if(part.gameObject.tag=="player"){
-			if(!isPickedUp){
-				isPickedUp=true;
-				SoundManagerScript.playSound("pickUpItem");
+			//if(playerHand.GetComponent<spin>().isSpinning)
+			{
+				part.hurt(weaponDamage);
+				SoundManagerScript.playSound("swordAttack");
+			}
+			if (part.gameObject.tag == "player")
+			{
+				if (!isPickedUp)
+				{
+					isPickedUp = true;
+					SoundManagerScript.playSound("pickUpItem");
+				}
 			}
 		}
 	}

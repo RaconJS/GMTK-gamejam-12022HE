@@ -65,7 +65,7 @@ public class SoundManagerScript : MonoBehaviour
         new WaitForSeconds(3);
         while (true)
         {
-            //audioSrc.PlayOneShot(music);
+            audioSrc.PlayOneShot(music);
             yield return new WaitForSeconds(music.length - 0.5f);
         }
     }
@@ -77,8 +77,8 @@ public class SoundManagerScript : MonoBehaviour
             if (playerWalking)
             {
                 audioSrc.PlayOneShot(playerWalk);
-                yield return new WaitForSeconds(playerWalk.length - 0.5f);
             }
+            yield return new WaitForSeconds(playerWalk.length - 0.5f);
         }
     }
 
@@ -89,8 +89,8 @@ public class SoundManagerScript : MonoBehaviour
             if (enemyWalking)
             {
                 audioSrc.PlayOneShot(enemyWalk);
-                yield return new WaitForSeconds(enemyWalk.length - 0.5f);
             }
+            yield return new WaitForSeconds(enemyWalk.length - 0.5f);
         }
     }
 
