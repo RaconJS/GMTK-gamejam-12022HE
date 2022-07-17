@@ -39,10 +39,12 @@ public class WeaponHandler : MonoBehaviour
 		//if(playerHand.GetComponent<spin>().isSpinning)
 		{
 			part.hurt(weaponDamage);
+			SoundManagerScript.playSound("swordAttack");
 		}
 		if(part.gameObject.tag=="player"){
 			if(!isPickedUp){
 				isPickedUp=true;
+				SoundManagerScript.playSound("pickUpItem");
 			}
 		}
 	}

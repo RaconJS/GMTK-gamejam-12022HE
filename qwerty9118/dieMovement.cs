@@ -46,8 +46,8 @@ public class dieMovement : MonoBehaviour
     {
         dieLauncher = GameObject.Find("Dice Gun").GetComponent<DieLauncher>();
         float angle = 2f * Mathf.PI * Random.Range(0f,1f);
-        GetComponent<Rigidbody>().velocity += new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), 1) * 8;
-        GetComponent<Rigidbody>().angularVelocity = Random.insideUnitSphere * 8;
+        GetComponent<Rigidbody>().velocity += new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), Random.Range(0f, 1.5f)) * Random.Range(5f, 10f);
+        GetComponent<Rigidbody>().angularVelocity = Random.insideUnitSphere * Random.Range(5f, 10f);
     }
 
     private void FixedUpdate()

@@ -14,5 +14,6 @@ public class Health : MonoBehaviour
     public void ApplyDamageEnemy(float damage)
     {
         Debug.Log("applying:" + damage);
+        SoundManagerScript.playSound("playerDamage");
     }
 }
