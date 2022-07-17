@@ -26,7 +26,7 @@ public class enermiesTurn : MonoBehaviour
 					state++;
 				break;
 				case 1:
-					if(Time.time-timeStart>2f){
+					if(Time.time-timeStart>0f){
 						state++;
 					}
 				break;
@@ -52,7 +52,7 @@ public class enermiesTurn : MonoBehaviour
 					state++;
 				break;
 				case 6:
-					if(Time.time-timeStart>2f){
+					if(Time.time-timeStart>0f){
 						state++;
 					}
 				break;
@@ -76,6 +76,6 @@ public class enermiesTurn : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		
+		;
 	}
 }

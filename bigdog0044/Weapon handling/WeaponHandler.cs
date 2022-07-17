@@ -4,36 +4,46 @@ using UnityEngine;
 
 public class WeaponHandler : MonoBehaviour
 {
-    private bool weaponTouching = true;
-    private int weaponDamage = 2;
-    // Start is called before the first frame update
-    void Start()
-    {
-        if (player == null)
-        {
-            GameObject.Find("player");
-        }
+	private bool weaponTouching = true;
+	private int weaponDamage = 2;
+	bool isPickedUp=false;
+	public Transform playerHand;
+	// Start is called before the first frame update
+	void Start()
+	{
+		isPickedUp=false;
+		if (player == null)
+		{
+			GameObject.Find("player");
+		}
 
-    }
+	}
 
-    private Vector3 player_position;
-    private string weapon_type;
-    private GameObject player;
+	private Vector3 player_position;
+	private string weapon_type;
+	private GameObject player;
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
+	// Update is called once per frame
+	void Update()
+	{
+		if(isPickedUp){
 
-    //this sends a damage message for the health for the enemy
-    private void OnTriggerEnter2D(Collider2D col)
-    {
-        if (col.gameObject.tag == "Enemy")
-        {
-            col.gameObject.SendMessage("ApplyDamageEnemy", 10);
-        }
-    }
+		}
+	}
+
+	//this sends a damage message for the health for the enemy
+	private void OnTriggerEnter2D(Collider2D col)
+	{
+		var part=col.gameObject.GetComponent<enermyTurn>();
+		if (part!=null)
+		//if(playerHand.GetComponent<spin>().isSpinning)
+		{
+			part.hurt(weaponDamage);
+		}
+		if(part.gameObject.tag=="player"){
+			if(!isPickedUp){
+				isPickedUp=true;
+			}
+		}
+	}
 }
-
-
- 

@@ -20,7 +20,7 @@ public class enemyMovement : MonoBehaviour
 		moveDirection=1f;
 		isActive=false;
 	}
-	bool isActive;
+	public bool isActive;
 	public float start(){
 		rb.constraints&=~RigidbodyConstraints2D.FreezePositionX;
 		isActive=true;
