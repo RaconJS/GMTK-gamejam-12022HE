@@ -12,7 +12,7 @@ public class DieLauncher : MonoBehaviour
 
     public void rollDice()
     {
-        GameObject dieInstance = Instantiate(die, new Vector3(0, 0, -14), Random.rotation);
+        GameObject dieInstance = Instantiate(die, new Vector3(0, 0, -4), Random.rotation);
     }
 
     private void Update()
