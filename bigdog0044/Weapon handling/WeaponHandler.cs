@@ -43,6 +43,7 @@ public class WeaponHandler : MonoBehaviour
 		if(part.gameObject.tag=="player"){
 			if(!isPickedUp){
 				isPickedUp=true;
+				transform.
 			}
 		}
 	}
