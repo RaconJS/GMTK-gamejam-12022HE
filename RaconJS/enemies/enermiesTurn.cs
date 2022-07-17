@@ -17,7 +17,6 @@ public class enermiesTurn : MonoBehaviour
 		state=2;
 	}
 	void FixedUpdate(){
-		int i=0;
 		switch(state){
 			//enemies:
 				case 0:

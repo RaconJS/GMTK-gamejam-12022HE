@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WeaponHandler : MonoBehaviour
 {
-	private bool weaponTouching = true;
+	//private bool weaponTouching = true;
 	private int weaponDamage = 2;
 	bool isPickedUp=false;
 	public Transform playerHand;
@@ -27,7 +27,8 @@ public class WeaponHandler : MonoBehaviour
 	void Update()
 	{
 		if(isPickedUp){
-
+			transform.position=playerHand.transform.position;
+			transform.rotation=playerHand.transform.rotation;
 		}
 	}
 
@@ -43,7 +44,6 @@ public class WeaponHandler : MonoBehaviour
 		if(part.gameObject.tag=="player"){
 			if(!isPickedUp){
 				isPickedUp=true;
-				transform.
 			}
 		}
 	}
