@@ -9,6 +9,7 @@ public class dieMovement : MonoBehaviour
     public bool rolling;
     public bool startRoll;
     private DieLauncher dieLauncher;
+    private int diceSound;
 
     void Update()
     {
