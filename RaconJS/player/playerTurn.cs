@@ -9,7 +9,7 @@ public class playerTurn : MonoBehaviour
 	public enermiesTurn turn;
     public KeyCode keyStartMove = KeyCode.Q;
     public KeyCode keyStartAttack = KeyCode.F;
-    //public dieMovement diceRoller;
+    public dieMovement diceRoller;
     int action;//0:move,1:fight
 	movePlayer mover;
 	playerFight fighter;
@@ -18,7 +18,6 @@ public class playerTurn : MonoBehaviour
 	//player
 	void Start(){
 		waitingForRoll=false;
-		//diceRoller=GetComponent<dieMovement>();
 		mover=GetComponent<movePlayer>();
 		fighter=GetComponent<playerFight>();
 	}
@@ -38,18 +37,19 @@ public class playerTurn : MonoBehaviour
 		oldState=newState;
 	}
 	void generateActions(){
-		//diceRoller=GetComponent<diceRoller>();
 		waitingForRoll=true;
-		//diceRoller.startRoll();
+		diceRoller.startRoll();
 		{
 			waitingForRoll=false;
 			actionsLeft=Random.Range(1,6+1);
 		}
 	}
 	void nextAction(){
+		action=0;
 		if(action==0)mover.StartMovement();
 		else fighter.startFight();
 		actionsLeft--;
+		isActive=true;
 	}
 	void Update(){
 		if(waitingForRoll){
