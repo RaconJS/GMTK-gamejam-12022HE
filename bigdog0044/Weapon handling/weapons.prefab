@@ -99,8 +99,8 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: -0.16, y: -0.14}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    border: {x: 0.71, y: 0.21, z: 1.06, w: 0.62}
+    pivot: {x: 0.40785262, y: 0.19848055}
     oldSize: {x: 1.92, y: 1.08}
     newSize: {x: 1.92, y: 1.08}
     adaptiveTilingThreshold: 0.5
@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c13ea6039fb46849a9f90db4d9ba1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHand: {fileID: 0}
 --- !u!1 &709731648462377054
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,8 +222,8 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    border: {x: 0.35999998, y: 0.22999999, z: 1.39, w: 0.48}
+    pivot: {x: 0.23187028, y: 0.21501271}
     oldSize: {x: 1.92, y: 1.08}
     newSize: {x: 1.92, y: 1.08}
     adaptiveTilingThreshold: 0.5
@@ -254,6 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c13ea6039fb46849a9f90db4d9ba1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHand: {fileID: 0}
 --- !u!1 &709731649066794110
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,6 +352,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c13ea6039fb46849a9f90db4d9ba1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHand: {fileID: 0}
 --- !u!61 &709731649066794106
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -365,8 +368,8 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: -0.16, y: -0.14}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    border: {x: 0.71, y: 0.21, z: 1.06, w: 0.62}
+    pivot: {x: 0.40907156, y: 0.19377753}
     oldSize: {x: 1.92, y: 1.08}
     newSize: {x: 1.92, y: 1.08}
     adaptiveTilingThreshold: 0.5
@@ -475,8 +478,8 @@ BoxCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: -0.16, y: -0.14}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    border: {x: 0.71, y: 0.21, z: 1.06, w: 0.62}
+    pivot: {x: 0.40853658, y: 0.19681571}
     oldSize: {x: 1.92, y: 1.08}
     newSize: {x: 1.92, y: 1.08}
     adaptiveTilingThreshold: 0.5
@@ -498,6 +501,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c13ea6039fb46849a9f90db4d9ba1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHand: {fileID: 0}
 --- !u!1 &3044430463028389145
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,8 +601,8 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    border: {x: 0.35999998, y: 0.22999999, z: 1.39, w: 0.48}
+    pivot: {x: 0.23180081, y: 0.22300273}
     oldSize: {x: 1.92, y: 1.08}
     newSize: {x: 1.92, y: 1.08}
     adaptiveTilingThreshold: 0.5
@@ -630,6 +634,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c13ea6039fb46849a9f90db4d9ba1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHand: {fileID: 0}
 --- !u!1 &4299125573247653212
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,8 +770,8 @@ PolygonCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    border: {x: 0.35999998, y: 0.22999999, z: 1.39, w: 0.48}
+    pivot: {x: 0.23138303, y: 0.21394804}
     oldSize: {x: 1.92, y: 1.08}
     newSize: {x: 1.92, y: 1.08}
     adaptiveTilingThreshold: 0.5
@@ -798,3 +803,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c13ea6039fb46849a9f90db4d9ba1f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerHand: {fileID: 0}

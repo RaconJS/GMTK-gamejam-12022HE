@@ -8,7 +8,8 @@ public class dieMovement : MonoBehaviour
 {
     public bool rolling;
     public bool startRoll;
-    private DieLauncher dieLauncher;
+    private DieLauncher dieGun;
+    private DieScaling dieScale;
     private int diceSound;
 
     void Update()
@@ -31,20 +32,26 @@ public class dieMovement : MonoBehaviour
                 }
             }
 
-            Debug.Log(transform.GetChild(closestIndex).name);
+            //Debug.Log(transform.GetChild(closestIndex).name);
 
-            dieLauncher.diceOutput.Add(int.Parse(Regex.Match(transform.GetChild(closestIndex).name, @"\d+").Value));
+            dieGun.diceOutput.Add(int.Parse(Regex.Match(transform.GetChild(closestIndex).name, @"\d+").Value));
 
             rolling = false;
 
-            Destroy(gameObject, 5.0f);
+            //Destroy(gameObject, 5.0f);
 
         }
     }
 
     private void Awake()
     {
-        dieLauncher = GameObject.Find("Dice Gun").GetComponent<DieLauncher>();
+        dieScale = GameObject.Find("Dice tray").GetComponent<DieScaling>();
+        transform.localScale = new Vector3(
+            dieScale.scaleY / dieScale.size.y,
+            dieScale.scaleY / dieScale.size.y,
+            dieScale.scaleY / dieScale.size.y);
+
+        dieGun = GameObject.Find("Dice Gun").GetComponent<DieLauncher>();
         float angle = 2f * Mathf.PI * Random.Range(0f,1f);
         GetComponent<Rigidbody>().velocity += new Vector3(Mathf.Sin(angle), Mathf.Cos(angle), Random.Range(0f, 1.5f)) * Random.Range(5f, 10f);
         GetComponent<Rigidbody>().angularVelocity = Random.insideUnitSphere * Random.Range(5f, 10f);

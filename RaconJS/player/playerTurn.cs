@@ -6,10 +6,10 @@ public class playerTurn : MonoBehaviour
 {
 	bool oldState;
 	bool isActive;
-	public enermiesTurn turn;
+	private enermiesTurn turn;
     public KeyCode keyStartMove = KeyCode.Q;
     public KeyCode keyStartAttack = KeyCode.F;
-    public DieLauncher diceRoller;
+    private DieLauncher diceGun;
     int action;//0:move,1:fight
 	movePlayer mover;
 	playerFight fighter;
@@ -20,6 +20,8 @@ public class playerTurn : MonoBehaviour
 		waitingForRoll=false;
 		mover=GetComponent<movePlayer>();
 		fighter=GetComponent<playerFight>();
+		diceGun = GameObject.Find("Dice Gun").GetComponent<DieLauncher>();
+		turn = GameObject.Find("enermies1").GetComponent<enermiesTurn>();
 	}
 	void FixedUpdate(){
 		bool newState=turn.startPLayerTurn;
@@ -38,11 +40,8 @@ public class playerTurn : MonoBehaviour
 	}
 	void generateActions(){
 		waitingForRoll=true;
-		//diceRoller.startRoll();
-		{
-			waitingForRoll=false;
-			actionsLeft=Random.Range(1,6+1);
-		}
+
+		diceGun.rollDice();
 	}
 	void nextAction(){
 		action=0;
@@ -52,11 +51,11 @@ public class playerTurn : MonoBehaviour
 		isActive=true;
 	}
 	void Update(){
-		if(waitingForRoll){
-			//if(diceRoller.isDone){
-			//	waitingForRoll=false;
-			//	actionsLeft=diceRoller.value;
-			//}
+		if(waitingForRoll && diceGun.diceOutput.Count > 0)
+		{
+			waitingForRoll=false;
+			actionsLeft = diceGun.diceOutput[0];
+			diceGun.diceOutput.RemoveAt(0);
 		}
 		else{
 			if(isActive){

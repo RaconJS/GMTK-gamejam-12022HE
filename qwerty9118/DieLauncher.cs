@@ -9,15 +9,17 @@ public class DieLauncher : MonoBehaviour
 
     public GameObject die;
     public List<int> diceOutput = new List<int>();
+    public KeyCode throwDie = KeyCode.G;
 
     public void rollDice()
     {
-        GameObject dieInstance = Instantiate(die, new Vector3(0, 0, Random.Range(-3f, -5f)), Random.rotation);
+        GameObject dieInstance = Instantiate(die, new Vector3(transform.position.x, transform.position.y, Random.Range(-3f, -5f)), Random.rotation);
+        dieInstance.transform.parent = transform;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(throwDie))
         {
             rollDice();
         }

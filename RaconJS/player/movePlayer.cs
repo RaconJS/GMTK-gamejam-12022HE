@@ -8,17 +8,19 @@ public class movePlayer : MonoBehaviour
     public bool isMoving;
     public bool isActive;
     public float landingTime=2f;
-    public KeyCode keyReload = KeyCode.R;
-    public KeyCode keyLaunch = KeyCode.E;
-    public KeyCode keyUp = KeyCode.UpArrow;
-    public KeyCode keyDown = KeyCode.DownArrow;
-    public KeyCode keyLeft = KeyCode.LeftArrow;
-    public KeyCode keyRight = KeyCode.RightArrow;
+    private KeyCode keyReload = KeyCode.R;
+    private KeyCode keyLaunch = KeyCode.E;
+    private KeyCode keyUp = KeyCode.W;
+    private KeyCode keyDown = KeyCode.S;
+    private KeyCode keyLeft = KeyCode.A;
+    private KeyCode keyRight = KeyCode.D;
     private Vector2 direction;
     private Rigidbody2D rb;
+    private DieLauncher diceGun;
+    private int waitForDice;
 
     //RaconJS var's
-    public float maxEnergy = 4f;
+    public float maxEnergy = 0;// = 4f;
     public int isLanding;
     float timeStartJump;
 
@@ -28,9 +30,15 @@ public class movePlayer : MonoBehaviour
     	isLanding=0;
         isMoving = false;
         rb = GetComponent<Rigidbody2D>();
+        diceGun = GameObject.Find("Dice Gun").GetComponent<DieLauncher>();
+        waitForDice = 0;
     }
 
     public void StartMovement(){
+        maxEnergy = 0;
+        diceGun.rollDice();
+        diceGun.rollDice();
+        waitForDice += 2;
         isMoving = true;
         isLanding = 0;
         isActive=true;
@@ -62,52 +70,101 @@ public class movePlayer : MonoBehaviour
     }
 
     void Update(){
+        if (waitForDice > 0 && diceGun.diceOutput.Count > 0)
+        {
+            waitForDice--;
+            maxEnergy += diceGun.diceOutput[0];
+            diceGun.diceOutput.RemoveAt(0);
+        }
         if(isMoving)
         {
-            Vector2 oldDirection=direction;
-             if(Input.GetKeyDown(keyLeft)){
+             if(Input.GetKeyDown(keyLeft))
+            {
+
                 direction.x -= 1;
+                if (direction.x + direction.y > maxEnergy)
+                {
+                    direction.x += 1;
+                }
                 Debug.Log(direction.x+", "+direction.y);
+
             }
             if (Input.GetKeyDown(keyRight))
             {
+
                 direction.x += 1;
+                if (direction.x + direction.y > maxEnergy)
+                {
+                    direction.x -= 1;
+                }
                 Debug.Log(direction.x + ", " + direction.y);
+
             }
             if (Input.GetKeyDown(keyUp))
             {
+
                 direction.y += 1;
+                if (direction.x + direction.y > maxEnergy)
+                {
+                    direction.y -= 1;
+                }
                 Debug.Log(direction.x + ", " + direction.y);
+
             }
-            if (Input.GetKeyDown(keyDown))
+            if (Input.GetKeyDown(keyDown) && direction.y > 0)
             {
+
                 direction.y -= 1;
+                if (direction.x + direction.y > maxEnergy)
+                {
+                    direction.y += 1;
+                }
                 Debug.Log(direction.x + ", " + direction.y);
+
             }
             if (Input.GetKeyDown(keyLaunch))
             {
+
                 isMoving = false;
                 isLanding=1;
                 timeStartJump=Time.time;
-                rb.velocity = new Vector2(xMovement(direction.x), yMovement(direction.y)*5)*2;
+                rb.velocity = new Vector3(xMovement(direction.x), yMovement(direction.y), 0)*2;
                 GetComponent<Renderer>().material.SetColor("_Color", Color.white);
                 Debug.Log(rb.velocity.x + ", " + rb.velocity.y);
-            }
-            if(direction.magnitude>maxEnergy){//raconJS
-                direction=oldDirection;
+
             }
         }
-        if(Input.GetKeyDown(keyReload))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-        }
-        isActive=isMoving||isLanding!=0;
-        if(isLanding==2&&Time.time-timeStartJump>landingTime){
-        	isLanding=0;
+        //if(Input.GetKeyDown(keyReload))
+        //{
+        //    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //}
+        isActive = isMoving || isLanding != 0;
+        if(isLanding == 2 && Time.time-timeStartJump > landingTime){
+        	isLanding = 0;
         }
     }
     void OnCollisionEnter2D(){
-        if(isLanding==1){isLanding=2;
+        if(isLanding==1){
+            isLanding=2;
         }
     }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (!SoundManagerScript.playerWalking && rb.velocity.magnitude > 0.1)
+        {
+            SoundManagerScript.playerWalking = true;
+        }
+
+        if (SoundManagerScript.playerWalking && rb.velocity.magnitude < 0.1)
+        {
+            SoundManagerScript.playerWalking = false;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        SoundManagerScript.playerWalking = false;
+    }
+
 }

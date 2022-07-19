@@ -27,7 +27,8 @@ public class SoundManagerScript : MonoBehaviour
     public static bool
         enemyWalking,
         playerWalking;
-    private static AudioSource audioSrc;
+    private static AudioSource audioSrc1;
+    private static AudioSource audioSrc2;
 
     // Start is called before the first frame update
     void Start()
@@ -52,7 +53,9 @@ public class SoundManagerScript : MonoBehaviour
         pickUpItem = Resources.Load<AudioClip>("pickUpItem");
         swordAttack = Resources.Load<AudioClip>("swordAttack");
 
-        audioSrc = GetComponent<AudioSource>();
+        audioSrc1 = gameObject.AddComponent<AudioSource>();
+        audioSrc2 = gameObject.AddComponent<AudioSource>();
+        audioSrc2.volume = 0.1f;
 
         StartCoroutine(loopMusic());
         StartCoroutine(loopPlayerWalk());
@@ -65,7 +68,7 @@ public class SoundManagerScript : MonoBehaviour
         new WaitForSeconds(3);
         while (true)
         {
-            audioSrc.PlayOneShot(music);
+            audioSrc2.PlayOneShot(music);
             yield return new WaitForSeconds(music.length - 0.5f);
         }
     }
@@ -76,9 +79,9 @@ public class SoundManagerScript : MonoBehaviour
         {
             if (playerWalking)
             {
-                audioSrc.PlayOneShot(playerWalk);
+                playSound("playerWalk");
             }
-            yield return new WaitForSeconds(playerWalk.length - 0.5f);
+            yield return new WaitForSeconds(playerWalk.length);
         }
     }
 
@@ -88,9 +91,9 @@ public class SoundManagerScript : MonoBehaviour
         {
             if (enemyWalking)
             {
-                audioSrc.PlayOneShot(enemyWalk);
+                playSound("enemyWalk");
             }
-            yield return new WaitForSeconds(enemyWalk.length - 0.5f);
+            yield return new WaitForSeconds(enemyWalk.length);
         }
     }
 
@@ -108,59 +111,65 @@ public class SoundManagerScript : MonoBehaviour
 
     public static void playSound(string clip)
     {
+        playSound(clip, 0.5f);
+    }
 
+    public static void playSound(string clip, float volume)
+    {
+
+        audioSrc1.volume = volume;
         switch (clip)
         {
-            //case "enemyWalk":
-                //audioSrc.PlayOneShot(enemyWalk);
-                //break;
+            case "enemyWalk":
+                audioSrc1.PlayOneShot(enemyWalk);
+                break;
             case "playerDamage":
-                audioSrc.PlayOneShot(playerDamage);
+                audioSrc1.PlayOneShot(playerDamage);
                 break;
             case "playerJump":
-                audioSrc.PlayOneShot(playerJump);
+                audioSrc1.PlayOneShot(playerJump);
                 break;
-            //case "playerWalk":
-                //audioSrc.PlayOneShot(playerWalk);
-                //break;
+            case "playerWalk":
+                audioSrc1.PlayOneShot(playerWalk);
+                break;
             case "bonusSound":
-                audioSrc.PlayOneShot(bonusSound);
+                audioSrc1.PlayOneShot(bonusSound);
                 break;
             case "bowFire":
-                audioSrc.PlayOneShot(bowFire);
+                audioSrc1.PlayOneShot(bowFire);
                 break;
             case "diceRoll":
-                audioSrc.PlayOneShot(diceRoll);
+                audioSrc1.PlayOneShot(diceRoll);
                 break;
             case "diceRoll1":
-                audioSrc.PlayOneShot(diceRoll1);
+                audioSrc1.PlayOneShot(diceRoll1);
                 break;
             case "diceRoll2":
-                audioSrc.PlayOneShot(diceRoll2);
+                audioSrc1.PlayOneShot(diceRoll2);
                 break;
             case "diceRoll3":
-                audioSrc.PlayOneShot(diceRoll3);
+                audioSrc1.PlayOneShot(diceRoll3);
                 break;
             case "diceRoll4":
-                audioSrc.PlayOneShot(diceRoll4);
+                audioSrc1.PlayOneShot(diceRoll4);
                 break;
             case "diceRoll5":
-                audioSrc.PlayOneShot(diceRoll5);
+                audioSrc1.PlayOneShot(diceRoll5);
                 break;
             case "diceRoll6":
-                audioSrc.PlayOneShot(diceRoll6);
+                audioSrc1.PlayOneShot(diceRoll6);
                 break;
             case "enemyBite":
-                audioSrc.PlayOneShot(enemyBite);
+                audioSrc1.PlayOneShot(enemyBite);
                 break;
             case "enemyGrunt":
-                audioSrc.PlayOneShot(enemyGrunt);
+                audioSrc1.PlayOneShot(enemyGrunt);
                 break;
             case "pickUpItem":
-                audioSrc.PlayOneShot(pickUpItem);
+                audioSrc1.PlayOneShot(pickUpItem);
                 break;
             case "swordAttack":
-                audioSrc.PlayOneShot(swordAttack);
+                audioSrc1.PlayOneShot(swordAttack);
                 break;
         }
 
