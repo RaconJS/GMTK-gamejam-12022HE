@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 
 public class movePlayer : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class movePlayer : MonoBehaviour
     private Rigidbody2D rb;
     private DieLauncher diceGun;
     private int waitForDice;
+    public Animator animator;
 
     //RaconJS var's
     public float maxEnergy = 0;// = 4f;
@@ -32,6 +34,7 @@ public class movePlayer : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         diceGun = GameObject.Find("Dice Gun").GetComponent<DieLauncher>();
         waitForDice = 0;
+        animator = GetComponent<Animator>();
     }
 
     public void StartMovement(){
@@ -143,28 +146,71 @@ public class movePlayer : MonoBehaviour
         	isLanding = 0;
         }
     }
-    void OnCollisionEnter2D(){
+    void OnCollisionEnter2D(Collision2D collision)
+    {
         if(isLanding==1){
             isLanding=2;
+        }
+
+        if (collision.gameObject.GetComponent<TilemapCollider2D>() != null)
+        {
+
+            animator.SetBool("jump", false);
+
         }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (!SoundManagerScript.playerWalking && rb.velocity.magnitude > 0.1)
+        if (collision.gameObject.GetComponent<TilemapCollider2D>() != null)
         {
-            SoundManagerScript.playerWalking = true;
-        }
 
-        if (SoundManagerScript.playerWalking && rb.velocity.magnitude < 0.1)
-        {
-            SoundManagerScript.playerWalking = false;
+            animator.SetBool("jump", false);
+
+            if (rb.velocity.magnitude > 0.1)
+            {
+
+                if (!SoundManagerScript.playerWalking)
+                {
+                    SoundManagerScript.playerWalking = true;
+                }
+                if (!animator.GetBool("walk"))
+                {
+                    animator.SetBool("walk", true);
+                }
+
+            }
+
+            if (rb.velocity.magnitude < 0.1)
+            {
+
+                if (SoundManagerScript.playerWalking)
+                {
+                    SoundManagerScript.playerWalking = false;
+                }
+                if (animator.GetBool("walk"))
+                {
+                    animator.SetBool("walk", false);
+                }
+
+            }
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        SoundManagerScript.playerWalking = false;
+        if (collision.gameObject.GetComponent<TilemapCollider2D>() != null)
+        {
+            SoundManagerScript.playerWalking = false;
+            animator.SetBool("walk", false);
+            animator.SetBool("jump", true);
+
+            if (rb.velocity.y > 0)
+            {
+                SoundManagerScript.playSound("playerJump");
+            }
+
+        }
     }
 
 }
