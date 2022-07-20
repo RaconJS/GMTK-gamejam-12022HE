@@ -24,10 +24,9 @@ public class DieLauncher : MonoBehaviour
 
     private IEnumerator rollDiceDelayed(float seconds)
     {
-        new WaitForSeconds(3);
+        yield return new WaitForSeconds(seconds);
         GameObject dieInstance = Instantiate(die, new Vector3(transform.position.x, transform.position.y, Random.Range(-3f, -5f)), Random.rotation);
         dieInstance.transform.parent = transform;
-        yield return null;
     }
 
     private void Update()

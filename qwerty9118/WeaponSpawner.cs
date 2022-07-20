@@ -10,15 +10,20 @@ public class WeaponSpawner : MonoBehaviour
     public static KeyCode spawn = KeyCode.H;
     public static Sprite[] meleeWeaponSprites;
     public static Sprite[] rangedWeaponSprites;
-    public static List<GameObject> meleeWeapons = new List<GameObject>();
-    public static List<GameObject> rangedWeapons = new List<GameObject>();
+    public static List<GameObject> weapons = new List<GameObject>();
+    public static List<GameObject> projectiles = new List<GameObject>();
     private static int requestedWeapons = 0;
     private static int waitForDice = 0;
     private static DieLauncher diceGun;
     private List<Vector3> weaponPositions = new List<Vector3>();
     private List<int> diceResults = new List<int>();
 
-    public void spawnWeapon(string weapon, int level, Vector3 position)
+    public void spawnWeapon(string weapon, int level, Vector3 position, Quaternion rotation)
+    {
+        spawnWeapon(weapon, level, position, rotation, false, new Vector2(0, 0));
+    }
+    
+    public void spawnWeapon(string weapon, int level, Vector3 position, Quaternion rotation, bool projectile, Vector2 velocity)
     {
         GameObject tempWeapon;
 
@@ -26,16 +31,23 @@ public class WeaponSpawner : MonoBehaviour
         Debug.Log(level);
         Debug.Log(position.ToString());
 
-        if (weapon == "bow")
+        if (projectile)
         {
-            tempWeapon = rangedWeapons.Find(i => i.GetComponent<SpriteRenderer>().sprite.name == weapon + "_A_" + level);
+            weapon += "_projectile";
+            tempWeapon = projectiles.Find(i => i.name == weapon + "_" + level);
         }
         else
         {
-            tempWeapon = meleeWeapons.Find(i => i.GetComponent<SpriteRenderer>().sprite.name == weapon + "_" + level);
+            tempWeapon = weapons.Find(i => i.name == weapon + "_" + level);
         }
 
-        GameObject weaponInstance = Instantiate(tempWeapon, position, Quaternion.identity);
+        if (tempWeapon == null)
+        {
+            Debug.LogWarning(weapon + " level " + level + " does not exist(?). Has my code broken, or has yours?");
+            return;
+        }
+
+        GameObject weaponInstance = Instantiate(tempWeapon, position, rotation);
         weaponInstance.SetActive(true);
         weaponInstance.AddComponent<PolygonCollider2D>();
         weaponInstance.transform.parent = transform;
@@ -74,11 +86,10 @@ public class WeaponSpawner : MonoBehaviour
             weapon.GetComponent<WeaponHandler>().setLevel(Int32.Parse(name[name.Length-1]));
             weapon.GetComponent<Rigidbody2D>().mass = weight(name[0]);
             weapon.transform.parent = transform;
-            meleeWeapons.Add(weapon);
+            weapons.Add(weapon);
 
         }
 
-        int count = -1;
         foreach (Sprite s in rangedWeaponSprites)
         {
             string[] name = s.name.Split('_');
@@ -88,33 +99,33 @@ public class WeaponSpawner : MonoBehaviour
                 case "A":
 
                     GameObject weapon = Instantiate(weaponBase, new Vector3(0, 0, 0), Quaternion.identity);
-                    weapon.name = s.name;
+                    weapon.name = name[0] + "_" + name[2];//s.name;
                     weapon.SetActive(false);
                     weapon.GetComponent<SpriteRenderer>().sprite = s;
                     weapon.GetComponent<WeaponHandler>().setRanged(true);
                     weapon.GetComponent<WeaponHandler>().setType(name[0]);
                     weapon.GetComponent<WeaponHandler>().setLevel(Int32.Parse(name[name.Length - 1]));
                     weapon.transform.parent = transform;
-                    rangedWeapons.Add(weapon);
-                    count++;
+                    weapons.Add(weapon);
 
                     break;
                 case "B":
 
-                    rangedWeapons[count].GetComponent<WeaponHandler>().addLoadedSprite(s);
+                    weapons.Find(i => i.name == name[0] + "_" + name[2]).GetComponent<WeaponHandler>().addLoadedSprite(s);
 
                     break;
                 case "C":
 
                     GameObject projectile = Instantiate(weaponBase, new Vector3(0, 0, 0), Quaternion.identity);
-                    projectile.name = s.name;
+                    projectile.name = name[0] + "_projectile_" + name[2];
                     projectile.SetActive(false);
                     projectile.GetComponent<SpriteRenderer>().sprite = s;
+                    projectile.GetComponent<WeaponHandler>().setProjectile(true);
                     projectile.GetComponent<WeaponHandler>().setType("arrow");
                     projectile.GetComponent<WeaponHandler>().setLevel(Int32.Parse(name[name.Length - 1]));
                     projectile.transform.parent = transform;
-                    meleeWeapons.Add(projectile);
-                    rangedWeapons[count].GetComponent<WeaponHandler>().addProjectile(projectile);
+                    projectiles.Add(projectile);
+                    weapons.Find(i => i.name == name[0] + "_" + name[2]).GetComponent<WeaponHandler>().addProjectile(name[0]);
 
                     break;
                 default:
@@ -166,15 +177,16 @@ public class WeaponSpawner : MonoBehaviour
             {
 
                 string weapon = "";
-                int level = 0;
-                //bool ranged = false;
+                int level = 1;
+                bool projectile = false;
 
                 if (diceResults[0] == diceResults[1])
                 {
                     switch (diceResults[0])
                     {
                         case 1:
-                            weapon = "arrow";
+                            weapon = "bow";
+                            projectile = true;
                             break;
                         case 6:
                             level = 3;
@@ -184,14 +196,9 @@ public class WeaponSpawner : MonoBehaviour
                             break;
                     }
                 }
-                else
-                {
-                    level = 1;
-                }
 
-                if (diceResults[2] == 6)
+                if (diceResults[2] == 6 && weapon == "")
                 {
-                    //ranged = true;
                     weapon = "bow";
                 }
 
@@ -212,13 +219,14 @@ public class WeaponSpawner : MonoBehaviour
                             weapon = "rapier";
                             break;
                         default:
-                            weapon = "arrow";
+                            weapon = "bow";
+                            projectile = true;
                             break;
                     }
                 }
 
                 requestedWeapons--;
-                spawnWeapon(weapon, level, weaponPositions[0]);
+                spawnWeapon(weapon, level, weaponPositions[0], Quaternion.Euler(0, 0, UnityEngine.Random.Range(0, 360)), projectile, new Vector2(0, 0));
                 weaponPositions.RemoveAt(0);
                 diceResults = new List<int>();
 
