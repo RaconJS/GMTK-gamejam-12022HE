@@ -16,7 +16,7 @@ public class movePlayer : MonoBehaviour
     private KeyCode keyDown = KeyCode.S;
     private KeyCode keyLeft = KeyCode.A;
     private KeyCode keyRight = KeyCode.D;
-    private Vector2 direction;
+    private Vector3 direction;
     private Rigidbody2D rb;
     private DieLauncher diceGun;
     private int waitForDice;
@@ -46,20 +46,22 @@ public class movePlayer : MonoBehaviour
         isMoving = true;
         isLanding = 0;
         isActive=true;
-        direction = new Vector2(0, 0);
+        direction = new Vector3(0, 0);
         GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        GetComponent<LineRenderer>().enabled = true;
     }
     public void StopMovement(){
         isMoving = false;
         isLanding = 0;
-        GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        GetComponent<Renderer>().material.SetColor("_Color", Color.white);
+        GetComponent<LineRenderer>().enabled = false;
     }
 
     private float xMovement(float xDirection)
     {
         if (xDirection != 0)
         {
-            return ((2 * Mathf.Abs(xDirection) + 4) / 3) * (xDirection / Mathf.Abs(xDirection));
+            return ((2 * Mathf.Abs(xDirection) + 4) / 3) * (xDirection / Mathf.Abs(xDirection)) * 1.5f;
         }
         return 0;
     }
@@ -68,7 +70,7 @@ public class movePlayer : MonoBehaviour
     {
         if (yDirection != 0)
         {
-            return Mathf.Abs(yDirection);//((2 * Mathf.Abs(yDirection) + 4) / 3) * (yDirection / Mathf.Abs(yDirection));
+            return Mathf.Abs(yDirection) * 2;//((2 * Mathf.Abs(yDirection) + 4) / 3) * (yDirection / Mathf.Abs(yDirection));
         }
         return 0;
     }
@@ -126,6 +128,12 @@ public class movePlayer : MonoBehaviour
                 Debug.Log(direction.x + ", " + direction.y);
 
             }
+
+            GetComponent<LineRenderer>().SetPosition(0, transform.position);
+            GetComponent<LineRenderer>().SetPosition(1, transform.position + direction / 2);
+            GetComponent<LineRenderer>().startWidth = ((direction.magnitude / 21) * 5) / 2;
+            GetComponent<LineRenderer>().endWidth = ((direction.magnitude / 21) * 5) / 2;
+
             if (Input.GetKeyDown(keyLaunch))
             {
 
@@ -142,6 +150,8 @@ public class movePlayer : MonoBehaviour
                 timeStartJump=Time.time;
                 rb.velocity = new Vector3(xMovement(direction.x), yMovement(direction.y), 0);
                 GetComponent<Renderer>().material.SetColor("_Color", Color.white);
+                GetComponent<LineRenderer>().enabled = false;
+
                 Debug.Log(rb.velocity.x + ", " + rb.velocity.y);
 
             }

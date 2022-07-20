@@ -38,7 +38,6 @@ public class playerTurn : MonoBehaviour
 	void FixedUpdate(){
 		bool newState=turn.startPLayerTurn;
 		if(newState&&newState!=oldState){
-			isActive=true;
 			generateActions();
 		}
 		if(isActive){
@@ -60,7 +59,7 @@ public class playerTurn : MonoBehaviour
 		if(action==0)mover.StartMovement();
 		else fighter.startFight();
 		actionsLeft--;
-		isActive=true;
+		//isActive=true;
 	}
 	void Update(){
 
@@ -74,10 +73,11 @@ public class playerTurn : MonoBehaviour
 		if(waitingForRoll && diceGun.diceOutput.Count > 0)
 		{
 			waitingForRoll=false;
+			isActive = true;
 			actionsLeft = diceGun.diceOutput[0];
 			diceGun.diceOutput.RemoveAt(0);
 		}
-		else{
+		/*else{
 			if(isActive){
 		        if (Input.GetKeyDown(keyStartMove))
 		        {
@@ -89,6 +89,6 @@ public class playerTurn : MonoBehaviour
 		            mover.isMoving=false;
 		        }
 		    }
-		}
+		}*/
 	}
 }
