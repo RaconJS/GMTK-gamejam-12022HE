@@ -7,8 +7,8 @@ public class spawner : MonoBehaviour
 {
 	public Tilemap tileMap;
 	public GameObject spawnObj;
-	public float probability=0.1f;
-	public float probScale=0.1f;
+	public float probability=0.04f;
+	public float probScale=0.02f;
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -18,7 +18,7 @@ public class spawner : MonoBehaviour
 			for(int x=0;x<len[0];++x){
 				if(tileMap.HasTile(new Vector3Int(x,y,0))){
 					float val=Random.Range(0f,1f);
-					if(Mathf.Pow(val,(1+y*probScale))<probability){
+					if(Mathf.Pow(val,(1+x*probScale))<probability){
 						Instantiate(spawnObj,new Vector3((float)x+0.5f,(float)y+1f),transform.rotation);
 					}
 				}

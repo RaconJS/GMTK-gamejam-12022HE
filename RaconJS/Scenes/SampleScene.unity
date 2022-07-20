@@ -9002,6 +9002,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2021446552436888513, guid: 8ff96c7c1b6d2e6d6bd51aac850f2869, type: 3}
   m_PrefabInstance: {fileID: 392967181}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1390960388 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 897189557130483403, guid: dbd39022c5ce5bbe8a6725b0e4339ca9, type: 3}
+  m_PrefabInstance: {fileID: 236052655}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2022537124
 GameObject:
   m_ObjectHideFlags: 0
@@ -9046,9 +9051,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileMap: {fileID: 844483045}
-  spawnObj: {fileID: 897189557130483403, guid: dbd39022c5ce5bbe8a6725b0e4339ca9, type: 3}
-  probability: 0.1
-  probScale: 0.1
+  spawnObj: {fileID: 1390960388}
+  probability: 0.04
+  probScale: 0.002
 --- !u!1001 &1618534849299614073
 PrefabInstance:
   m_ObjectHideFlags: 0
