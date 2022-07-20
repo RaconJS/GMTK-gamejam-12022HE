@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -67,7 +68,7 @@ public class movePlayer : MonoBehaviour
     {
         if (yDirection != 0)
         {
-            return ((2 * Mathf.Abs(yDirection) + 4) / 3) * (yDirection / Mathf.Abs(yDirection));
+            return Mathf.Abs(yDirection);//((2 * Mathf.Abs(yDirection) + 4) / 3) * (yDirection / Mathf.Abs(yDirection));
         }
         return 0;
     }
@@ -85,7 +86,7 @@ public class movePlayer : MonoBehaviour
             {
 
                 direction.x -= 1;
-                if (direction.x + direction.y > maxEnergy)
+                if (Mathf.Abs(direction.x) + Mathf.Abs(direction.y) > maxEnergy)
                 {
                     direction.x += 1;
                 }
@@ -96,7 +97,7 @@ public class movePlayer : MonoBehaviour
             {
 
                 direction.x += 1;
-                if (direction.x + direction.y > maxEnergy)
+                if (Mathf.Abs(direction.x) + Mathf.Abs(direction.y) > maxEnergy)
                 {
                     direction.x -= 1;
                 }
@@ -107,7 +108,7 @@ public class movePlayer : MonoBehaviour
             {
 
                 direction.y += 1;
-                if (direction.x + direction.y > maxEnergy)
+                if (Mathf.Abs(direction.x) + Mathf.Abs(direction.y) > maxEnergy)
                 {
                     direction.y -= 1;
                 }
@@ -118,7 +119,7 @@ public class movePlayer : MonoBehaviour
             {
 
                 direction.y -= 1;
-                if (direction.x + direction.y > maxEnergy)
+                if (Mathf.Abs(direction.x) + Mathf.Abs(direction.y) > maxEnergy)
                 {
                     direction.y += 1;
                 }
@@ -128,6 +129,14 @@ public class movePlayer : MonoBehaviour
             if (Input.GetKeyDown(keyLaunch))
             {
 
+                if (direction.x < 0)
+                {
+                    transform.localScale = new Vector3(-1, 1, 1);
+                }
+                else if (direction.x > 0)
+                {
+                    transform.localScale = new Vector3(1, 1, 1);
+                }
                 isMoving = false;
                 isLanding=1;
                 timeStartJump=Time.time;

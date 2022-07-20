@@ -13,7 +13,7 @@ public class SoundManagerScript : MonoBehaviour
         playerWalk,
         bonusSound,
         bowFire,
-        diceRoll,
+        //diceRoll,
         diceRoll1,
         diceRoll2,
         diceRoll3,
@@ -36,20 +36,20 @@ public class SoundManagerScript : MonoBehaviour
 
         music = Resources.Load<AudioClip>("music");
         enemyWalk = Resources.Load<AudioClip>("enemyWalk");
-        playerDamage = Resources.Load<AudioClip>("playerDamage");
+        playerDamage = Resources.Load<AudioClip>("playerDamage");//not implemented
         playerJump = Resources.Load<AudioClip>("playerJump");
         playerWalk = Resources.Load<AudioClip>("playerWalk");
-        bonusSound = Resources.Load<AudioClip>("bonusSound");
+        bonusSound = Resources.Load<AudioClip>("bonusSound");//not implemented
         bowFire = Resources.Load<AudioClip>("bowFire");
-        diceRoll = Resources.Load<AudioClip>("diceRoll");
+        //diceRoll = Resources.Load<AudioClip>("diceRoll");
         diceRoll1 = Resources.Load<AudioClip>("diceRoll1");
         diceRoll2 = Resources.Load<AudioClip>("diceRoll2");
         diceRoll3 = Resources.Load<AudioClip>("diceRoll3");
         diceRoll4 = Resources.Load<AudioClip>("diceRoll4");
         diceRoll5 = Resources.Load<AudioClip>("diceRoll5");
         diceRoll6 = Resources.Load<AudioClip>("diceRoll6");
-        enemyBite = Resources.Load<AudioClip>("enemyBite");
-        enemyGrunt = Resources.Load<AudioClip>("enemyGrunt");
+        enemyBite = Resources.Load<AudioClip>("enemyBite");//not implemented
+        enemyGrunt = Resources.Load<AudioClip>("enemyGrunt");//not implemented
         pickUpItem = Resources.Load<AudioClip>("pickUpItem");
         swordAttack = Resources.Load<AudioClip>("swordAttack");
 
@@ -138,9 +138,9 @@ public class SoundManagerScript : MonoBehaviour
             case "bowFire":
                 audioSrc1.PlayOneShot(bowFire);
                 break;
-            case "diceRoll":
-                audioSrc1.PlayOneShot(diceRoll);
-                break;
+            //case "diceRoll":
+            //    audioSrc1.PlayOneShot(diceRoll);
+            //    break;
             case "diceRoll1":
                 audioSrc1.PlayOneShot(diceRoll1);
                 break;

@@ -91,7 +91,7 @@ public class WeaponHandler : MonoBehaviour
 
 			//transform.position = player.GetComponent<playerTurn>().handPos;//playerHand.transform.position;
 			//transform.rotation = player.GetComponent<playerTurn>().handRot;//playerHand.transform.rotation;
-			GetComponent<Rigidbody2D>().velocity = ((player.GetComponent<playerTurn>().handPos + player.transform.position) - transform.position) * 5;
+			GetComponent<Rigidbody2D>().velocity = ((player.GetComponent<playerTurn>().handPos + player.transform.position) - transform.position) * 10;
             //if (Mathf.Abs((player.GetComponent<playerTurn>().handRot % 360) - (GetComponent<Rigidbody2D>().rotation % 360)) > 5)
             {
 				GetComponent<Rigidbody2D>().angularVelocity = player.GetComponent<playerTurn>().handRot - GetComponent<Rigidbody2D>().rotation;
@@ -106,6 +106,7 @@ public class WeaponHandler : MonoBehaviour
 				GameObject arrow = Instantiate(projectile, transform.position, transform.rotation);
 				arrow.transform.parent = transform;
 				arrow.GetComponent<Rigidbody2D>().velocity += new Vector2(transform.forward.x, transform.forward.y) * 10;
+				SoundManagerScript.playSound("bowFire");
 				projFireCount = 0;
 			}
             else
@@ -123,7 +124,7 @@ public class WeaponHandler : MonoBehaviour
 	//this sends a damage message for the health for the enemy
 	private void OnCollisionEnter2D(Collision2D collision)
     {
-		var part= collision.gameObject;
+		var part = collision.gameObject;
 		if (part.GetComponent<enermyTurn>() != null)
 		{
 			//if(playerHand.GetComponent<spin>().isSpinning)
@@ -140,14 +141,11 @@ public class WeaponHandler : MonoBehaviour
 		{
 			Physics2D.IgnoreCollision(part.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 
-			if (!isPickedUp && (
-				player.GetComponent<playerTurn>().holdingWepn == null || (
-				player.GetComponent<playerTurn>().holdingWepn.GetComponent<WeaponHandler>().weaponType != weaponType &&
-				player.GetComponent<playerTurn>().holdingWepn.GetComponent<WeaponHandler>().weaponLevel != weaponLevel &&
-				weaponType != "arrow")))
+			if (!isPickedUp && weaponType != "arrow")
 			{
+				GameObject heldObject = player.GetComponent<playerTurn>().holdingWepn;
 
-                if (player.GetComponent<playerTurn>().holdingWepn != null)
+				if (player.GetComponent<playerTurn>().holdingWepn != gameObject)
                 {
 					player.GetComponent<playerTurn>().holdingWepn.GetComponent<WeaponHandler>().pickup(false);
 					player.GetComponent<playerTurn>().holdingWepn.transform.parent = transform.parent;

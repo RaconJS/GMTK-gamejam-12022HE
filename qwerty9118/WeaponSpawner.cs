@@ -48,8 +48,8 @@ public class WeaponSpawner : MonoBehaviour
         weaponPositions.Add(position);
         diceGun.rollDice();
         diceGun.rollDice();
-        diceGun.rollDice();
-        diceGun.rollDice();
+        diceGun.rollDice(1);
+        diceGun.rollDice(2);
         waitForDice += 4;
 
     }
@@ -67,10 +67,12 @@ public class WeaponSpawner : MonoBehaviour
 
             string[] name = s.name.Split('_');
             GameObject weapon = Instantiate(weaponBase, new Vector3(0,0,0), Quaternion.identity);
+            weapon.name = s.name;
             weapon.SetActive(false);
             weapon.GetComponent<SpriteRenderer>().sprite = s;
             weapon.GetComponent<WeaponHandler>().setType(name[0]);
             weapon.GetComponent<WeaponHandler>().setLevel(Int32.Parse(name[name.Length-1]));
+            weapon.GetComponent<Rigidbody2D>().mass = weight(name[0]);
             weapon.transform.parent = transform;
             meleeWeapons.Add(weapon);
 
@@ -86,6 +88,7 @@ public class WeaponSpawner : MonoBehaviour
                 case "A":
 
                     GameObject weapon = Instantiate(weaponBase, new Vector3(0, 0, 0), Quaternion.identity);
+                    weapon.name = s.name;
                     weapon.SetActive(false);
                     weapon.GetComponent<SpriteRenderer>().sprite = s;
                     weapon.GetComponent<WeaponHandler>().setRanged(true);
@@ -104,6 +107,7 @@ public class WeaponSpawner : MonoBehaviour
                 case "C":
 
                     GameObject projectile = Instantiate(weaponBase, new Vector3(0, 0, 0), Quaternion.identity);
+                    projectile.name = s.name;
                     projectile.SetActive(false);
                     projectile.GetComponent<SpriteRenderer>().sprite = s;
                     projectile.GetComponent<WeaponHandler>().setType("arrow");
@@ -117,6 +121,27 @@ public class WeaponSpawner : MonoBehaviour
                     break;
             }
 
+        }
+
+    }
+
+    private static float weight(string type)
+    {
+
+        switch (type)
+        {
+            case "sword":
+                return 1f;
+            case "dagger":
+                return 0.2f;
+            case "rapier":
+                return 0.4f;
+            case "bow":
+                return 0.3f;
+            case "arrow":
+                return 0.1f;
+            default:
+                return 0f;
         }
 
     }
