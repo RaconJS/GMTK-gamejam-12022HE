@@ -128,7 +128,7 @@ public class movePlayer : MonoBehaviour
                 isMoving = false;
                 isLanding=1;
                 timeStartJump=Time.time;
-                rb.velocity = new Vector3(xMovement(direction.x), yMovement(direction.y), 0)*2;
+                rb.velocity = new Vector3(xMovement(direction.x), yMovement(direction.y), 0);
                 GetComponent<Renderer>().material.SetColor("_Color", Color.white);
                 Debug.Log(rb.velocity.x + ", " + rb.velocity.y);
 

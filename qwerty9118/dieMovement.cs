@@ -11,6 +11,8 @@ public class dieMovement : MonoBehaviour
     private DieLauncher dieGun;
     private DieScaling dieScale;
     private int diceSound;
+    private bool killDie = false;
+    private float killDieCount = 0f;
 
     void Update()
     {
@@ -38,8 +40,25 @@ public class dieMovement : MonoBehaviour
 
             rolling = false;
 
-            //Destroy(gameObject, 5.0f);
+            killDie = true;
 
+        }
+        if (transform.position.z > 5)
+        {
+            transform.position = new Vector3(transform.parent.position.x, transform.parent.position.y, Random.Range(-3f, -5f));
+        }
+        if (killDie)
+        {
+            killDieCount += Time.deltaTime / 60;
+
+            if (killDieCount > 0.05f)
+            {
+                transform.localScale = Vector3.Lerp(transform.localScale, new Vector3(0, 0, 0), killDieCount - 0.05f);
+                if (transform.localScale.magnitude <= 0.1)
+                {
+                    Destroy(gameObject);
+                }
+            }
         }
     }
 
@@ -49,7 +68,7 @@ public class dieMovement : MonoBehaviour
         transform.localScale = new Vector3(
             dieScale.scaleY / dieScale.size.y,
             dieScale.scaleY / dieScale.size.y,
-            dieScale.scaleY / dieScale.size.y);
+            dieScale.scaleY / dieScale.size.y) * 0.75f;
 
         dieGun = GameObject.Find("Dice Gun").GetComponent<DieLauncher>();
         float angle = 2f * Mathf.PI * Random.Range(0f,1f);
