@@ -9002,6 +9002,53 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2021446552436888513, guid: 8ff96c7c1b6d2e6d6bd51aac850f2869, type: 3}
   m_PrefabInstance: {fileID: 392967181}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2022537124
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2022537125}
+  - component: {fileID: 2022537126}
+  m_Layer: 0
+  m_Name: spawners
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2022537125
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022537124}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.9187851, y: 1.1509969, z: -22.7319}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2022537126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022537124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ee2bd9706898e7abbc96206cc42ffda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileMap: {fileID: 844483045}
+  spawnObj: {fileID: 897189557130483403, guid: dbd39022c5ce5bbe8a6725b0e4339ca9, type: 3}
+  probability: 0.1
+  probScale: 0.1
 --- !u!1001 &1618534849299614073
 PrefabInstance:
   m_ObjectHideFlags: 0
