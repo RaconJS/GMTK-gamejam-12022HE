@@ -91,18 +91,22 @@ public class WeaponHandler : MonoBehaviour
 
 			//transform.position = player.GetComponent<playerTurn>().handPos;//playerHand.transform.position;
 			//transform.rotation = player.GetComponent<playerTurn>().handRot;//playerHand.transform.rotation;
-			GetComponent<Rigidbody2D>().velocity = Vector3.MoveTowards(transform.position, player.GetComponent<playerTurn>().handPos, Time.deltaTime * 2);
-			GetComponent<Rigidbody2D>().AddTorque(player.GetComponent<playerTurn>().handRot / GetComponent<Rigidbody2D>().rotation);
+			GetComponent<Rigidbody2D>().velocity = ((player.GetComponent<playerTurn>().handPos + player.transform.position) - transform.position) * 5;
+            //if (Mathf.Abs((player.GetComponent<playerTurn>().handRot % 360) - (GetComponent<Rigidbody2D>().rotation % 360)) > 5)
+            {
+				GetComponent<Rigidbody2D>().angularVelocity = player.GetComponent<playerTurn>().handRot - GetComponent<Rigidbody2D>().rotation;
+			}
 
 		}
         if (weaponType == "bow")
         {
 
-            if (projFireCount == 20)
+            if (projFireCount == 10)
             {
 				GameObject arrow = Instantiate(projectile, transform.position, transform.rotation);
 				arrow.transform.parent = transform;
 				arrow.GetComponent<Rigidbody2D>().velocity += new Vector2(transform.forward.x, transform.forward.y) * 10;
+				projFireCount = 0;
 			}
             else
             {
@@ -117,14 +121,14 @@ public class WeaponHandler : MonoBehaviour
 	}
 
 	//this sends a damage message for the health for the enemy
-	private void OnCollisionEnter2D(UnityEngine.Collision2D col)
+	private void OnCollisionEnter2D(Collision2D collision)
     {
-		var part=col.gameObject;
+		var part= collision.gameObject;
 		if (part.GetComponent<enermyTurn>() != null)
 		{
 			//if(playerHand.GetComponent<spin>().isSpinning)
-			Physics2D.IgnoreCollision(part.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 			{
+				//Physics2D.IgnoreCollision(part.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 				part.GetComponent<enermyTurn>().hurt(weaponDamage());
                 if (weaponType != "bow")
                 {
@@ -143,17 +147,56 @@ public class WeaponHandler : MonoBehaviour
 				weaponType != "arrow")))
 			{
 
-				isPickedUp = true;
-				GameObject weapon = Instantiate(gameObject, transform.position, transform.rotation);
-				weapon.transform.parent = transform.parent;
-				weapon.GetComponent<WeaponHandler>().pickup(true);
-				Destroy(gameObject);
+                if (player.GetComponent<playerTurn>().holdingWepn != null)
+                {
+					player.GetComponent<playerTurn>().holdingWepn.GetComponent<WeaponHandler>().pickup(false);
+					player.GetComponent<playerTurn>().holdingWepn.transform.parent = transform.parent;
+					player.GetComponent<playerTurn>().holdingWepn.GetComponent<Rigidbody2D>().gravityScale = 1;
+					player.GetComponent<playerTurn>().holdingWepn.GetComponent<Rigidbody2D>().velocity = Random.insideUnitCircle * 5;
+					Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), player.GetComponent<playerTurn>().holdingWepn.GetComponent<Collider2D>(), false);
+				}
 
-				player.GetComponent<playerTurn>().holdingWepn = weapon;
-				Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), weapon.GetComponent<Collider2D>(), true);
+				isPickedUp = true;
+				//GameObject weapon = Instantiate(gameObject, transform.position, transform.rotation);
+				transform.parent = player.transform;
+				GetComponent<Rigidbody2D>().gravityScale = 0;
+				GetComponent<WeaponHandler>().pickup(true);
+				player.GetComponent<playerTurn>().holdingWepn = gameObject;
+				Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 				SoundManagerScript.playSound("pickUpItem");
+				//gameObject.SetActive(false);
+				//Destroy(gameObject, 2);
 
 			}
 		}
 	}
+
+    /*private void OnCollisionStay2D(Collision2D collision)
+	{
+		var part = collision.gameObject;
+		if (part.GetComponent<playerTurn>() != null)
+		{
+			//Physics2D.IgnoreCollision(part.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
+
+			if (!isPickedUp && (
+				player.GetComponent<playerTurn>().holdingWepn == null || (
+				player.GetComponent<playerTurn>().holdingWepn.GetComponent<WeaponHandler>().weaponType != weaponType &&
+				player.GetComponent<playerTurn>().holdingWepn.GetComponent<WeaponHandler>().weaponLevel != weaponLevel &&
+				weaponType != "arrow")))
+			{
+
+				isPickedUp = true;
+				GameObject weapon = Instantiate(gameObject, transform.position, transform.rotation);
+				weapon.transform.parent = transform.parent;
+				weapon.GetComponent<WeaponHandler>().pickup(true);
+				player.GetComponent<playerTurn>().holdingWepn = weapon;
+				Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), weapon.GetComponent<Collider2D>(), true);
+				SoundManagerScript.playSound("pickUpItem");
+				gameObject.SetActive(false);
+				Destroy(gameObject, 2);
+
+			}
+		}
+	}*/
+
 }

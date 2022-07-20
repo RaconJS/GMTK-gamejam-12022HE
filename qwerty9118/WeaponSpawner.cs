@@ -22,6 +22,10 @@ public class WeaponSpawner : MonoBehaviour
     {
         GameObject tempWeapon;
 
+        Debug.Log(weapon);
+        Debug.Log(level);
+        Debug.Log(position.ToString());
+
         if (weapon == "bow")
         {
             tempWeapon = rangedWeapons.Find(i => i.GetComponent<SpriteRenderer>().sprite.name == weapon + "_A_" + level);
@@ -123,7 +127,7 @@ public class WeaponSpawner : MonoBehaviour
         
         if (Input.GetKeyDown(spawn))
         {
-            spawnRandomWeapon(new Vector3(diceGun.transform.position.x, diceGun.transform.position.y, 0));
+            spawnRandomWeapon(new Vector3(diceGun.transform.position.x, diceGun.transform.position.y + 2, 0));
         }
 
         if (requestedWeapons > 0 && diceGun.diceOutput.Count > 0)

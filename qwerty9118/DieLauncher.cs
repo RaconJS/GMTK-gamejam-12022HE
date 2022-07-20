@@ -19,10 +19,10 @@ public class DieLauncher : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(throwDie))
-        {
-            rollDice();
-        }
+        //if (Input.GetKeyDown(throwDie))
+        //{
+        //    rollDice();
+        //}
     }
 
 }

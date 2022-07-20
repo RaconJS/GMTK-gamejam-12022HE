@@ -25,7 +25,7 @@ public class playerTurn : MonoBehaviour
 	void Start()
 	{
 
-		handPos = new Vector3(0.2f, 0, 0);
+		handPos = new Vector3(0.3f, 0, 0);
 		handRot = 45;
 
 		waitingForRoll=false;
