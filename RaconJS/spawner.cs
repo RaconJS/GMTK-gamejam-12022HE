@@ -9,9 +9,12 @@ public class spawner : MonoBehaviour
 	public GameObject spawnObj;
 	public float probability=0.04f;
 	public float probScale=0.02f;
+	private GameObject parentObject;
+
 	// Start is called before the first frame update
 	void Start()
 	{
+		parentObject = GameObject.Find("enermies1");
 		int[] len={tileMap.size.x,tileMap.size.y};
 		float tilesLeft;
 		for(int y=0;y<len[1];++y){
@@ -20,7 +23,7 @@ public class spawner : MonoBehaviour
 					float val=Random.Range(0f,1f);
 					if(Mathf.Pow(val,(1+x*probScale))<probability){
 						Instantiate(spawnObj,new Vector3((float)x+0.5f,(float)y+1f),transform.rotation);
-						spawnObj.transform.parent = transform;
+						spawnObj.transform.parent = parentObject.transform;
 					}
 				}
 			}
@@ -30,6 +33,6 @@ public class spawner : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-		
+		;
 	}
 }

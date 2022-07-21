@@ -11,6 +11,18 @@ public class enemyMovement : MonoBehaviour
 	float moveSpeed=2;
 	int edgeCollisions;
 	enermyTurn turn;
+	
+	
+	public float speed;
+	public float distance;
+
+	private bool movingRight = true;
+	public Transform groundDetection;
+
+
+
+
+
 	// Start is called before the first frame update
 	void Start()
 	{
@@ -31,7 +43,8 @@ public class enemyMovement : MonoBehaviour
 		isActive=false;
 		SoundManagerScript.setWalking(false, false);
 		var v=rb.velocity;
-		rb.velocity=new Vector2(0,v.y);
+		v.x = 0;
+		rb.velocity=v;
 		rb.constraints|=RigidbodyConstraints2D.FreezePositionX;
 		Debug.Log("end move");
 	}
@@ -40,9 +53,31 @@ public class enemyMovement : MonoBehaviour
 	{
 		var v=rb.velocity;
 		if(isActive){
-			rb.velocity=new Vector2(moveDirection*moveSpeed,v.y);
+			//rb.velocity=new Vector2(moveDirection*moveSpeed,v.y);
+			rb.angularVelocity = moveDirection * moveSpeed;
 		}else{
 			rb.velocity=new Vector2(0,v.y);
+			rb.angularVelocity = 0;
+		}
+
+		//transform.Translate(Vector2.right * speed * Time.deltaTime);
+
+		RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distance);
+
+		if (groundInfo.collider == false)
+		{
+			if (movingRight == true)
+			{
+				transform.eulerAngles = new Vector2(0, 180);
+				movingRight = false;
+				moveDirection *= -1;
+			}
+			else
+			{
+				transform.eulerAngles = new Vector2(0, -180);
+				movingRight = true;
+				moveDirection *= -1;
+			}
 		}
 	}
 	void OnTriggerEnter2D(Collider2D col){

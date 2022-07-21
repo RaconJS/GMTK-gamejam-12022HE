@@ -105,7 +105,8 @@ public class WeaponHandler : MonoBehaviour
 
 			float velocityDirection = Mathf.Rad2Deg * Mathf.Atan2(GetComponent<Rigidbody2D>().velocity.y, GetComponent<Rigidbody2D>().velocity.x);
 
-			GetComponent<Rigidbody2D>().AddTorque((velocityDirection - GetComponent<Rigidbody2D>().rotation) / 5);
+			//GetComponent<Rigidbody2D>().AddTorque((velocityDirection - GetComponent<Rigidbody2D>().rotation) / 5);
+			transform.forward = Vector3.Slerp(transform.right, GetComponent<Rigidbody2D>().velocity.normalized, Time.deltaTime);
 
 			if (GetComponent<Rigidbody2D>().velocity.magnitude < 0.5 || transform.position.y < -25)
 			{
