@@ -9052,7 +9052,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tileMap: {fileID: 844483045}
   spawnObj: {fileID: 1390960388}
-  probability: 0.04
+  probability: 0.15
   probScale: 0.002
 --- !u!1001 &1618534849299614073
 PrefabInstance:
