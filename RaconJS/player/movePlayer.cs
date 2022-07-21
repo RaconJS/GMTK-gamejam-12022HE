@@ -70,7 +70,7 @@ public class movePlayer : MonoBehaviour
     {
         if (yDirection != 0)
         {
-            return Mathf.Abs(yDirection) * 2;//((2 * Mathf.Abs(yDirection) + 4) / 3) * (yDirection / Mathf.Abs(yDirection));
+            return Mathf.Abs(yDirection) * 3;//((2 * Mathf.Abs(yDirection) + 4) / 3) * (yDirection / Mathf.Abs(yDirection));
         }
         return 0;
     }

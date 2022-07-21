@@ -23,7 +23,7 @@ public class WeaponSpawner : MonoBehaviour
         spawnWeapon(weapon, level, position, rotation, false, new Vector2(0, 0));
     }
     
-    public void spawnWeapon(string weapon, int level, Vector3 position, Quaternion rotation, bool projectile, Vector2 velocity)
+    public void spawnWeapon(string weapon, int level, Vector3 position, Quaternion rotation, bool projectile, Vector3 velocity)
     {
         GameObject tempWeapon;
 
@@ -49,8 +49,34 @@ public class WeaponSpawner : MonoBehaviour
 
         GameObject weaponInstance = Instantiate(tempWeapon, position, rotation);
         weaponInstance.SetActive(true);
-        weaponInstance.AddComponent<PolygonCollider2D>();
         weaponInstance.transform.parent = transform;
+        weaponInstance.GetComponent<Rigidbody2D>().velocity = velocity;
+        weaponInstance.AddComponent<PolygonCollider2D>();
+    }
+
+    public void spawnProjectile(string weapon, int level, Vector3 position, Quaternion rotation, Vector3 velocity, GameObject parentObject)
+    {
+        GameObject tempProjectile;
+
+        Debug.Log(weapon);
+        Debug.Log(level);
+        Debug.Log(position.ToString());
+
+        weapon += "_projectile";
+        tempProjectile = projectiles.Find(i => i.name == weapon + "_" + level);
+
+        if (tempProjectile == null)
+        {
+            Debug.LogWarning(weapon + " level " + level + " does not exist(?). Has my code broken, or has yours?");
+            return;
+        }
+
+        GameObject weaponInstance = Instantiate(tempProjectile, position, rotation);
+        weaponInstance.SetActive(true);
+        weaponInstance.transform.parent = parentObject.transform;
+        weaponInstance.GetComponent<Rigidbody2D>().velocity = velocity;
+        weaponInstance.AddComponent<PolygonCollider2D>();
+        Physics2D.IgnoreCollision(weaponInstance.GetComponent<Collider2D>(), parentObject.GetComponent<Collider2D>(), true);
     }
 
     public void spawnRandomWeapon(Vector3 position)
@@ -164,6 +190,11 @@ public class WeaponSpawner : MonoBehaviour
         if (Input.GetKeyDown(spawn))
         {
             spawnRandomWeapon(new Vector3(diceGun.transform.position.x, diceGun.transform.position.y + 2, 0));
+        }
+
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            spawnWeapon("bow", 3, new Vector3(diceGun.transform.position.x, diceGun.transform.position.y + 2, 0), Quaternion.identity);
         }
 
         if (requestedWeapons > 0 && diceGun.diceOutput.Count > 0)
