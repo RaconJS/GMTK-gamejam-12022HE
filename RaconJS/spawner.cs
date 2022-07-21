@@ -20,6 +20,7 @@ public class spawner : MonoBehaviour
 					float val=Random.Range(0f,1f);
 					if(Mathf.Pow(val,(1+x*probScale))<probability){
 						Instantiate(spawnObj,new Vector3((float)x+0.5f,(float)y+1f),transform.rotation);
+						spawnObj.transform.parent = transform;
 					}
 				}
 			}
