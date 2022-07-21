@@ -82,7 +82,14 @@ public class spawner : MonoBehaviour
 
 	private void createEnemies(int direction)
     {
+
 		int inChunk = currentChunk - 1 + direction;
+
+		if (inChunk == 1)
+		{
+			GameObject tempEnemy = Instantiate(spawnObj, new Vector3(-2.5f, -0.5f, 0), transform.rotation);
+			tempEnemy.transform.parent = parentObject.transform;
+		}
 
 		//len = new int[] { chunkSize, tileMap.size.y };
 		//float tilesLeft;
@@ -96,7 +103,7 @@ public class spawner : MonoBehaviour
 					float val = Random.Range(0f, 1f);
 					if (Mathf.Pow(val, (1 + (x + (chunkSize * inChunk)) * probScale)) < probability)
 					{
-						GameObject tempEnemy = Instantiate(spawnObj, new Vector3(x + (chunkSize * inChunk) + 0.5f, y + 1f), transform.rotation);
+						GameObject tempEnemy = Instantiate(spawnObj, new Vector3(x + (chunkSize * inChunk) + 0.5f, y + 1f, 0), transform.rotation);
 						tempEnemy.transform.parent = parentObject.transform;
 					}
 				}
