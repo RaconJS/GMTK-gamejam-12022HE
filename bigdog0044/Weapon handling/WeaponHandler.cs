@@ -98,47 +98,52 @@ public class WeaponHandler : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	void FixedUpdate()
 	{
-		if(isPickedUp)
+		if (isProjectile)
 		{
 
-			//transform.position = player.GetComponent<playerTurn>().handPos;//playerHand.transform.position;
-			//transform.rotation = player.GetComponent<playerTurn>().handRot;//playerHand.transform.rotation;
-			GetComponent<Rigidbody2D>().velocity = ((player.GetComponent<playerTurn>().handPos + player.transform.position) - transform.position) * 20;
-            //if (Mathf.Abs((player.GetComponent<playerTurn>().handRot % 360) - (GetComponent<Rigidbody2D>().rotation % 360)) > 5)
-            {
-				GetComponent<Rigidbody2D>().angularVelocity = (player.GetComponent<playerTurn>().handRot - GetComponent<Rigidbody2D>().rotation) * 2;
+			transform.right = Vector3.Slerp(transform.right, GetComponent<Rigidbody2D>().velocity.normalized, Time.fixedDeltaTime * 10);
+
+			if (GetComponent<Rigidbody2D>().velocity.magnitude < 0.5 || transform.position.y < -25)
+			{
+				Destroy(gameObject, 5.0f);
 			}
 
 		}
-        if (isRanged)
-        {
 
-            if (projFireCount > 49)
-            {
-				weaponSpawner.spawnWeapon(projectile, weaponLevel, transform.position, transform.rotation, true, new Vector2(transform.forward.x, transform.forward.y) * 10);
-				SoundManagerScript.playSound("bowFire");
-				GetComponent<SpriteRenderer>().sprite = unloadedSprite;
-				projFireCount = 0;
-			}
-
-            if (projFireCount > 25)
-            {
-				GetComponent<SpriteRenderer>().sprite = loadedSprite;
-			}
-
-			projFireCount++;
-
-		}
-		if (isProjectile && GetComponent<Rigidbody>().velocity.magnitude < 0.1)
+		if (isPickedUp)
 		{
-			Destroy(gameObject, 5.0f);
+
+			GetComponent<Rigidbody2D>().velocity = ((player.GetComponent<playerTurn>().handPos + player.transform.position) - transform.position) * 60;
+			GetComponent<Rigidbody2D>().angularVelocity = (player.GetComponent<playerTurn>().handRot - GetComponent<Rigidbody2D>().rotation) * 2;
+
+			if (isRanged)
+			{
+
+				if (projFireCount > 49)
+				{
+					//Debug.Log(new Vector3(transform.forward.x * 100, transform.forward.y * 100, 0).ToString());
+					weaponSpawner.spawnProjectile(projectile, weaponLevel, transform.position, transform.rotation, transform.right * 7, gameObject);
+					SoundManagerScript.playSound("bowFire");
+					GetComponent<SpriteRenderer>().sprite = unloadedSprite;
+					projFireCount = 0;
+				}
+
+				if (projFireCount > 25)
+				{
+					GetComponent<SpriteRenderer>().sprite = loadedSprite;
+				}
+
+				projFireCount++;
+
+			}
+
 		}
 	}
 
-	//this sends a damage message for the health for the enemy
-	private void OnCollisionEnter2D(Collision2D collision)
+    //this sends a damage message for the health for the enemy
+    private void OnCollisionEnter2D(Collision2D collision)
     {
 		var part = collision.gameObject;
 		if (part.GetComponent<WeaponHandler>() != null)
@@ -178,7 +183,7 @@ public class WeaponHandler : MonoBehaviour
 
 					GetComponent<WeaponHandler>().pickup(true);
 					transform.parent = player.transform;
-					GetComponent<Rigidbody2D>().gravityScale = 0;
+					GetComponent<Rigidbody2D>().gravityScale = 0.2f;
 					player.GetComponent<playerTurn>().holdingWepn = gameObject;
 					Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 					SoundManagerScript.playSound("pickUpItem");
@@ -199,7 +204,7 @@ public class WeaponHandler : MonoBehaviour
 
 					GetComponent<WeaponHandler>().pickup(true);
 					transform.parent = player.transform;
-					GetComponent<Rigidbody2D>().gravityScale = 0;
+					GetComponent<Rigidbody2D>().gravityScale = 0.2f;
 					player.GetComponent<playerTurn>().holdingWepn = gameObject;
 					Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 					SoundManagerScript.playSound("pickUpItem");

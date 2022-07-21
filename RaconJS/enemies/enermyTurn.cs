@@ -7,7 +7,7 @@ public class enermyTurn : MonoBehaviour
 	// Start is called before the first frame update
 	//:
 	public int hp=24; 
-	public GameObject enermyTurnHandlerObj;
+	//public GameObject enermyTurnHandlerObj;
 		int maxActions=3;//public
 	//---
 	enermiesTurn enermyTurnHandler;
@@ -17,28 +17,35 @@ public class enermyTurn : MonoBehaviour
 	string action;//move,attack
 	public float actionLeft;
 	public string[] actions={"move","attack"};
+
+	bool dieing;
+	float dieStartTime;
+	public float dieDuration = 0.5f;
+
+	bool oldState;
+
 	void Start()
 	{
-		enermyTurnHandler=enermyTurnHandlerObj.GetComponent<enermiesTurn>();
-		movePart=GetComponent<enemyMovement>();
+		//enermyTurnHandler=enermyTurnHandlerObj.GetComponent<enermiesTurn>();
+		enermyTurnHandler = transform.parent.GetComponent<enermiesTurn>();
+		movePart =GetComponent<enemyMovement>();
 		attackPart=GetComponent<en_attack>();
 		actionsLeft=0;
 		actionLeft=0f;
 		dieing=false;
 	}
+
 	// Update is called once per frame
 	public void endTurn(){
 		actionsLeft=0;
 	}
-	bool dieing;
-	float dieStartTime;
-	public float dieDuration=0.5f;
-	public void hurt (int damage){Debug.Log("hurt"+damage);
+
+	public void hurt (int damage){//Debug.Log("hurt"+damage);
 		hp-=damage;
 		//SoundManagerScript.playSound("enemyBite");
 		if (hp<=0)startDieing();
 	}
-	void startDieing(){Debug.Log("startDieing");
+	void startDieing(){//Debug.Log("startDieing");
 		dieing=true;
 		dieStartTime=Time.time;
 		SoundManagerScript.setWalking(false, false);
@@ -49,7 +56,13 @@ public class enermyTurn : MonoBehaviour
 	}
 	void Update()
 	{
-		if(dieing){//dieing animation
+
+		if (transform.position.y < -25)
+		{
+			dieing = true;
+		}
+
+		if (dieing){//dieing animation
 			float t=(Time.time-dieStartTime)/dieDuration;
 			animateDieing(t);
 			if(t>=1){
@@ -67,8 +80,9 @@ public class enermyTurn : MonoBehaviour
 				}
 			}
 		}
+
 	}
-	bool oldState;
+
 	void gainActions(){
 		actionsLeft=maxActions;
 	}
@@ -91,7 +105,7 @@ public class enermyTurn : MonoBehaviour
 	}
 	void pickNextAction(){
 		action=actions[Random.Range(0,2)];
-		Debug.Log(action);
+		//Debug.Log(action);
 		switch(action){
 			case"move":
 				actionsLeft--;
