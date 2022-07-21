@@ -17,6 +17,13 @@ public class enermyTurn : MonoBehaviour
 	string action;//move,attack
 	public float actionLeft;
 	public string[] actions={"move","attack"};
+
+	bool dieing;
+	float dieStartTime;
+	public float dieDuration = 0.5f;
+
+	bool oldState;
+
 	void Start()
 	{
 		//enermyTurnHandler=enermyTurnHandlerObj.GetComponent<enermiesTurn>();
@@ -27,13 +34,12 @@ public class enermyTurn : MonoBehaviour
 		actionLeft=0f;
 		dieing=false;
 	}
+
 	// Update is called once per frame
 	public void endTurn(){
 		actionsLeft=0;
 	}
-	bool dieing;
-	float dieStartTime;
-	public float dieDuration=0.5f;
+
 	public void hurt (int damage){//Debug.Log("hurt"+damage);
 		hp-=damage;
 		//SoundManagerScript.playSound("enemyBite");
@@ -50,7 +56,13 @@ public class enermyTurn : MonoBehaviour
 	}
 	void Update()
 	{
-		if(dieing){//dieing animation
+
+		if (transform.position.y < -25)
+		{
+			dieing = true;
+		}
+
+		if (dieing){//dieing animation
 			float t=(Time.time-dieStartTime)/dieDuration;
 			animateDieing(t);
 			if(t>=1){
@@ -68,8 +80,9 @@ public class enermyTurn : MonoBehaviour
 				}
 			}
 		}
+
 	}
-	bool oldState;
+
 	void gainActions(){
 		actionsLeft=maxActions;
 	}

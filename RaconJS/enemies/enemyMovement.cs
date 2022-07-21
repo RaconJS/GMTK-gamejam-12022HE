@@ -61,12 +61,19 @@ public class enemyMovement : MonoBehaviour
 	void FixedUpdate()
 	{
 
-		RaycastHit2D groundInfo = Physics2D.Raycast(transform.position + groundDetectionPos, groundDetectionRot * Vector3.down, distance);
+		RaycastHit2D aheadGroundInfo = Physics2D.Raycast(transform.position + groundDetectionPos, groundDetectionRot * Vector3.down, distance);
 		Debug.DrawRay(transform.position + groundDetectionPos, groundDetectionRot * Vector3.down, Color.green, distance);
 
-		if (groundInfo.transform == null)
+		RaycastHit2D groundInfo = Physics2D.Raycast(transform.position, Vector3.down, distance);
+		Debug.DrawRay(transform.position, Vector3.down, Color.blue, distance);
+
+        if (groundInfo.transform == null)
+        {
+			Debug.Log("HELPAMFALLING");
+        }
+		else if (aheadGroundInfo.transform == null)
 		{
-			Debug.Log("i haz detected hole!1!");
+			Debug.Log("i haz seen hole!1!");
 
 			if (movingRight)
 			{
