@@ -7,7 +7,7 @@ public class enermyTurn : MonoBehaviour
 	// Start is called before the first frame update
 	//:
 	public int hp=24; 
-	public GameObject enermyTurnHandlerObj;
+	//public GameObject enermyTurnHandlerObj;
 		int maxActions=3;//public
 	//---
 	enermiesTurn enermyTurnHandler;
@@ -19,8 +19,9 @@ public class enermyTurn : MonoBehaviour
 	public string[] actions={"move","attack"};
 	void Start()
 	{
-		enermyTurnHandler=enermyTurnHandlerObj.GetComponent<enermiesTurn>();
-		movePart=GetComponent<enemyMovement>();
+		//enermyTurnHandler=enermyTurnHandlerObj.GetComponent<enermiesTurn>();
+		enermyTurnHandler = transform.parent.GetComponent<enermiesTurn>();
+		movePart =GetComponent<enemyMovement>();
 		attackPart=GetComponent<en_attack>();
 		actionsLeft=0;
 		actionLeft=0f;

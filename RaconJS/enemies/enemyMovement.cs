@@ -17,7 +17,9 @@ public class enemyMovement : MonoBehaviour
 	public float distance;
 
 	private bool movingRight = true;
-	public Transform groundDetection;
+	//public Transform groundDetection;
+	private Vector3 groundDetectionPos;
+	private Quaternion groundDetectionRot;
 
 
 
@@ -62,21 +64,21 @@ public class enemyMovement : MonoBehaviour
 		}
 
 		//transform.Translate(Vector2.right * speed * Time.deltaTime);
-		RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position + transform.position, groundDetection.rotation * Vector3.down, distance);
+		RaycastHit2D groundInfo = Physics2D.Raycast(groundDetectionPos + transform.position, groundDetectionRot * Vector3.down, distance);
 
 		if (groundInfo.collider == false)
 		{
 			if (movingRight == true)
 			{
-				groundDetection.eulerAngles = new Vector2(0, 180);
-				groundDetection.position = new Vector3(1, 0, 0);
+				groundDetectionRot.eulerAngles = new Vector2(0, 180);
+				groundDetectionPos = new Vector3(1, 0, 0);
 				movingRight = false;
 				moveDirection *= -1;
 			}
 			else
 			{
-				groundDetection.eulerAngles = new Vector2(0, 360);
-				groundDetection.position = new Vector3(-1, 0, 0);
+				groundDetectionRot.eulerAngles = new Vector2(0, 360);
+				groundDetectionPos = new Vector3(-1, 0, 0);
 				movingRight = true;
 				moveDirection *= -1;
 			}
