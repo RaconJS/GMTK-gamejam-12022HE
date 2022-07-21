@@ -61,20 +61,21 @@ public class enemyMovement : MonoBehaviour
 		}
 
 		//transform.Translate(Vector2.right * speed * Time.deltaTime);
-
-		RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, distance);
+		RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position + transform.position, groundDetection.rotation * Vector3.down, distance);
 
 		if (groundInfo.collider == false)
 		{
 			if (movingRight == true)
 			{
-				transform.eulerAngles = new Vector2(0, 180);
+				groundDetection.eulerAngles = new Vector2(0, 180);
+				groundDetection.position = new Vector3(1, 0, 0);
 				movingRight = false;
 				moveDirection *= -1;
 			}
 			else
 			{
-				transform.eulerAngles = new Vector2(0, -180);
+				groundDetection.eulerAngles = new Vector2(0, 360);
+				groundDetection.position = new Vector3(-1, 0, 0);
 				movingRight = true;
 				moveDirection *= -1;
 			}
