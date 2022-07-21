@@ -72,8 +72,8 @@ public class spawner : MonoBehaviour
     {
         foreach (Transform child in parentObject.transform)
         {
-            if (child.position.x < (chunkSize * currentChunk - 2) ||
-				child.position.x > (chunkSize * currentChunk + 1))
+            if (child.position.x < (chunkSize * (currentChunk - 2)) ||
+				child.position.x > (chunkSize * (currentChunk + 1)))
             {
 				Destroy(child.gameObject);
 			}
