@@ -12,6 +12,7 @@ public class spawner : MonoBehaviour
 	private GameObject parentObject;
 	private GameObject playerObject;
 	public int chunks = 16;
+	private int chunkSize;
 	private int[] len;
 	private int currentChunk = 1;
 
@@ -20,7 +21,9 @@ public class spawner : MonoBehaviour
 	{
 		parentObject = GameObject.Find("enermies1");
 		playerObject = GameObject.Find("player");
+		chunkSize = tileMap.size.x / chunks;
 		len = new int[] { tileMap.size.x / chunks, tileMap.size.y };
+
 		/*float tilesLeft;
 		for(int y=0;y<len[1];++y){
 			for(int x=0;x<len[0];++x){
@@ -33,34 +36,67 @@ public class spawner : MonoBehaviour
 				}
 			}
 		}*/
-		generateNextSection();
+
+		generateInitial();
+
 	}
 
 	// Update is called once per frame
 	void Update()
 	{
-        if (playerObject.transform.position.x > (tileMap.size.x / 16) * currentChunk ||
-			playerObject.transform.position.x < (tileMap.size.x / 16) * (currentChunk - 1))
+        if (playerObject.transform.position.x > (tileMap.size.x / chunks) * currentChunk)
+		{
+			currentChunk++;
+			generate(1);
+		}
+        else if (playerObject.transform.position.x < (tileMap.size.x / chunks) * (currentChunk - 1))
         {
-			;
+			currentChunk--;
+			generate(-1);
         }
 	}
 
-	public void generateNextSection()
+	private void generateInitial()
     {
+		createEnemies(0);
+		createEnemies(1);
+	}
 
-		len = new int[] { tileMap.size.x / chunks, tileMap.size.y };
-		float tilesLeft;
+	private void generate(int direction)
+    {
+		removeEnemies();
+		createEnemies(direction);
+	}
+
+    private void removeEnemies()
+    {
+        foreach (Transform child in parentObject.transform)
+        {
+            if (child.position.x < (chunkSize * currentChunk - 2) ||
+				child.position.x > (chunkSize * currentChunk + 1))
+            {
+				Destroy(child.gameObject);
+			}
+        }
+    }
+
+	private void createEnemies(int direction)
+    {
+		int inChunk = currentChunk - 1 + direction;
+
+		//len = new int[] { chunkSize, tileMap.size.y };
+		//float tilesLeft;
 		for (int y = 0; y < len[1]; ++y)
 		{
 			for (int x = 0; x < len[0]; ++x)
 			{
-				if (tileMap.HasTile(new Vector3Int(x, y, 0)) && !tileMap.HasTile(new Vector3Int(x, y+1, 0)))
+				if (tileMap.HasTile(new Vector3Int(x + (chunkSize * inChunk), y, 0)) &&
+					!tileMap.HasTile(new Vector3Int(x + (chunkSize * inChunk), y+1, 0)))
 				{
 					float val = Random.Range(0f, 1f);
-					if (Mathf.Pow(val, (1 + x * probScale)) < probability)
+					if (Mathf.Pow(val, (1 + (x + (chunkSize * inChunk)) * probScale)) < probability)
 					{
-						GameObject tempEnemy = Instantiate(spawnObj, new Vector3((float)x + 0.5f, (float)y + 1f), transform.rotation);
+						GameObject tempEnemy = Instantiate(spawnObj, new Vector3(x + (chunkSize * inChunk) + 0.5f, y + 1f), transform.rotation);
 						tempEnemy.transform.parent = parentObject.transform;
 					}
 				}

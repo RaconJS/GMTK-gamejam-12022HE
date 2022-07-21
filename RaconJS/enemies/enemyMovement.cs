@@ -31,6 +31,7 @@ public class enemyMovement : MonoBehaviour
 		edgeCollisions=0;
 		moveDirection=1f;
 		isActive=false;
+		//groundDetection = gameObject.AddComponent<Transform>();
 	}
 	public bool isActive;
 	public float start(){

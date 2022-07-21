@@ -165,18 +165,18 @@ Transform:
   m_Children:
   - {fileID: 844483043}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &236052655
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 265494470}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 897189557130483400, guid: dbd39022c5ce5bbe8a6725b0e4339ca9, type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 897189557130483400, guid: dbd39022c5ce5bbe8a6725b0e4339ca9, type: 3}
       propertyPath: m_LocalPosition.x
@@ -243,11 +243,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c2e42a88aae35489f7052b218134ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &265494470 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2021446552436888512, guid: 8ff96c7c1b6d2e6d6bd51aac850f2869, type: 3}
-  m_PrefabInstance: {fileID: 392967181}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &392967181
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8945,11 +8940,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 2021446552436888513, guid: 8ff96c7c1b6d2e6d6bd51aac850f2869, type: 3}
   m_PrefabInstance: {fileID: 392967181}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1390960388 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 897189557130483403, guid: dbd39022c5ce5bbe8a6725b0e4339ca9, type: 3}
-  m_PrefabInstance: {fileID: 236052655}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2022537124
 GameObject:
   m_ObjectHideFlags: 0
@@ -8979,7 +8969,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2022537126
 MonoBehaviour:
@@ -8994,9 +8984,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tileMap: {fileID: 844483045}
-  spawnObj: {fileID: 1390960388}
+  spawnObj: {fileID: 897189557130483403, guid: dbd39022c5ce5bbe8a6725b0e4339ca9, type: 3}
   probability: 0.15
   probScale: 0.002
+  chunks: 16
 --- !u!1001 &1618534849299614073
 PrefabInstance:
   m_ObjectHideFlags: 0
