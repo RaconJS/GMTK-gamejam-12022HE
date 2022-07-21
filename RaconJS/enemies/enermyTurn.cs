@@ -34,12 +34,12 @@ public class enermyTurn : MonoBehaviour
 	bool dieing;
 	float dieStartTime;
 	public float dieDuration=0.5f;
-	public void hurt (int damage){Debug.Log("hurt"+damage);
+	public void hurt (int damage){//Debug.Log("hurt"+damage);
 		hp-=damage;
 		//SoundManagerScript.playSound("enemyBite");
 		if (hp<=0)startDieing();
 	}
-	void startDieing(){Debug.Log("startDieing");
+	void startDieing(){//Debug.Log("startDieing");
 		dieing=true;
 		dieStartTime=Time.time;
 		SoundManagerScript.setWalking(false, false);
@@ -92,7 +92,7 @@ public class enermyTurn : MonoBehaviour
 	}
 	void pickNextAction(){
 		action=actions[Random.Range(0,2)];
-		Debug.Log(action);
+		//Debug.Log(action);
 		switch(action){
 			case"move":
 				actionsLeft--;

@@ -57,7 +57,10 @@ public class spawner : MonoBehaviour
 	}
 
 	private void generateInitial()
-    {
+	{
+		GameObject tempEnemy = Instantiate(spawnObj, new Vector3(-2.5f, -0.5f, 0), transform.rotation);
+		tempEnemy.transform.parent = parentObject.transform;
+
 		createEnemies(0);
 		createEnemies(1);
 	}
@@ -84,12 +87,6 @@ public class spawner : MonoBehaviour
     {
 
 		int inChunk = currentChunk - 1 + direction;
-
-		if (inChunk == 1)
-		{
-			GameObject tempEnemy = Instantiate(spawnObj, new Vector3(-2.5f, -0.5f, 0), transform.rotation);
-			tempEnemy.transform.parent = parentObject.transform;
-		}
 
 		//len = new int[] { chunkSize, tileMap.size.y };
 		//float tilesLeft;
