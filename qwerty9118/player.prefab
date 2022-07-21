@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 6681584182921725080}
   - component: {fileID: 1618534849118569678}
   - component: {fileID: 1618534849118569665}
-  - component: {fileID: 6429379492099526532}
+  - component: {fileID: 588864677070912439}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -278,8 +278,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFighting: 0
---- !u!60 &6429379492099526532
-PolygonCollider2D:
+--- !u!61 &588864677070912439
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -291,7 +291,7 @@ PolygonCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.09, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -301,43 +301,9 @@ PolygonCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: 0.205, y: -0.24}
-      - {x: 0.21499999, y: -0.17999999}
-      - {x: 0.235, y: -0.13}
-      - {x: 0.185, y: 0.08}
-      - {x: 0.235, y: 0.11}
-      - {x: 0.24499999, y: 0.16}
-      - {x: 0.195, y: 0.26999998}
-      - {x: -0.024999999, y: 0.26999998}
-      - {x: -0.074999996, y: 0.17999999}
-      - {x: -0.044999998, y: 0.089999996}
-      - {x: 0.015, y: 0.04}
-      - {x: -0.035, y: 0.02}
-      - {x: -0.145, y: -0.08}
-      - {x: -0.145, y: -0.11}
-      - {x: -0.13499999, y: -0.17}
-      - {x: -0.055, y: -0.22999999}
-      - {x: -0.035, y: -0.26999998}
-      - {x: 0.085, y: -0.26999998}
-      - {x: 0.085, y: -0.24}
-      - {x: 0.085, y: -0.26999998}
-      - {x: 0.205, y: -0.26999998}
-    - - {x: 0.005, y: 0.14}
-      - {x: 0.035, y: 0.19}
-      - {x: 0.035, y: 0.19999999}
-      - {x: 0.015, y: 0.17999999}
-      - {x: 0.015, y: 0.17}
-      - {x: 0.044999998, y: 0.14}
-      - {x: 0.055, y: 0.14}
-      - {x: 0.114999995, y: 0.14999999}
-      - {x: 0.095, y: 0.16}
-      - {x: 0.055, y: 0.16}
-      - {x: 0.024999999, y: 0.13}
-      - {x: 0.024999999, y: 0.12}
-      - {x: 0.035, y: 0.12}
-      - {x: 0.035, y: 0.13}
+  serializedVersion: 2
+  m_Size: {x: 0.26, y: 0.54}
+  m_EdgeRadius: 0
 --- !u!1001 &1618534849714328823
 PrefabInstance:
   m_ObjectHideFlags: 0

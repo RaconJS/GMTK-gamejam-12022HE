@@ -8,7 +8,7 @@ public class enemyMovement : MonoBehaviour
 	public float moveDirection=1;
 	enemyMovement em;
 	GameObject obj;
-	float moveSpeed=50;
+	float moveSpeed=180;
 	int edgeCollisions;
 	enermyTurn turn;
 	
@@ -59,7 +59,7 @@ public class enemyMovement : MonoBehaviour
 			//rb.velocity=new Vector2(moveDirection*moveSpeed,v.y);
 			rb.angularVelocity = moveDirection * moveSpeed;
 		}else{
-			rb.velocity=new Vector2(0,v.y);
+			//rb.velocity=new Vector2(0,v.y);
 			rb.angularVelocity = 0;
 		}
 
