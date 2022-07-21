@@ -8,15 +8,15 @@ public class enemyMovement : MonoBehaviour
 	public float moveDirection=1;
 	enemyMovement em;
 	GameObject obj;
-	float moveSpeed=2;
+	float moveSpeed=50;
 	int edgeCollisions;
 	enermyTurn turn;
 	
 	
-	public float speed;
-	public float distance;
+	//public float speed;
+	public float distance = 1.5f;
 
-	private bool movingRight = true;
+	private bool movingRight = false;
 	//public Transform groundDetection;
 	private Vector3 groundDetectionPos;
 	private Quaternion groundDetectionRot;
@@ -64,21 +64,21 @@ public class enemyMovement : MonoBehaviour
 		}
 
 		//transform.Translate(Vector2.right * speed * Time.deltaTime);
-		RaycastHit2D groundInfo = Physics2D.Raycast(groundDetectionPos + transform.position, groundDetectionRot * Vector3.down, distance);
+		RaycastHit2D groundInfo = Physics2D.Raycast(transform.position + groundDetectionPos, groundDetectionRot * Vector3.down, distance);
 
-		if (groundInfo.collider == false)
+		if (groundInfo.collider == null)
 		{
-			if (movingRight == true)
+			if (movingRight)
 			{
 				groundDetectionRot.eulerAngles = new Vector2(0, 180);
-				groundDetectionPos = new Vector3(1, 0, 0);
+				groundDetectionPos = new Vector3(0.5f, 0, 0);
 				movingRight = false;
 				moveDirection *= -1;
 			}
 			else
 			{
 				groundDetectionRot.eulerAngles = new Vector2(0, 360);
-				groundDetectionPos = new Vector3(-1, 0, 0);
+				groundDetectionPos = new Vector3(-0.5f, 0, 0);
 				movingRight = true;
 				moveDirection *= -1;
 			}

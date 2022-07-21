@@ -73,7 +73,8 @@ public class WeaponSpawner : MonoBehaviour
 
         GameObject weaponInstance = Instantiate(tempProjectile, position, rotation);
         weaponInstance.SetActive(true);
-        weaponInstance.transform.parent = parentObject.transform;
+        weaponInstance.transform.parent = transform;
+        //weaponInstance.transform.parent = parentObject.transform;
         weaponInstance.GetComponent<Rigidbody2D>().velocity = velocity;
         weaponInstance.AddComponent<PolygonCollider2D>();
         Physics2D.IgnoreCollision(weaponInstance.GetComponent<Collider2D>(), parentObject.GetComponent<Collider2D>(), true);

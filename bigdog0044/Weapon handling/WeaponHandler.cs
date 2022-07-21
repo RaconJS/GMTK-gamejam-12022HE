@@ -98,15 +98,12 @@ public class WeaponHandler : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update()
+	void FixedUpdate()
 	{
 		if (isProjectile)
 		{
 
-			float velocityDirection = Mathf.Rad2Deg * Mathf.Atan2(GetComponent<Rigidbody2D>().velocity.y, GetComponent<Rigidbody2D>().velocity.x);
-
-			//GetComponent<Rigidbody2D>().AddTorque((velocityDirection - GetComponent<Rigidbody2D>().rotation) / 5);
-			transform.forward = Vector3.Slerp(transform.right, GetComponent<Rigidbody2D>().velocity.normalized, Time.deltaTime);
+			transform.right = Vector3.Slerp(transform.right, GetComponent<Rigidbody2D>().velocity.normalized, Time.fixedDeltaTime * 10);
 
 			if (GetComponent<Rigidbody2D>().velocity.magnitude < 0.5 || transform.position.y < -25)
 			{
@@ -118,7 +115,7 @@ public class WeaponHandler : MonoBehaviour
 		if (isPickedUp)
 		{
 
-			GetComponent<Rigidbody2D>().velocity = ((player.GetComponent<playerTurn>().handPos + player.transform.position) - transform.position) * 50;
+			GetComponent<Rigidbody2D>().velocity = ((player.GetComponent<playerTurn>().handPos + player.transform.position) - transform.position) * 60;
 			GetComponent<Rigidbody2D>().angularVelocity = (player.GetComponent<playerTurn>().handRot - GetComponent<Rigidbody2D>().rotation) * 2;
 
 			if (isRanged)
@@ -126,7 +123,7 @@ public class WeaponHandler : MonoBehaviour
 
 				if (projFireCount > 49)
 				{
-					Debug.Log(new Vector3(transform.forward.x * 100, transform.forward.y * 100, 0).ToString());
+					//Debug.Log(new Vector3(transform.forward.x * 100, transform.forward.y * 100, 0).ToString());
 					weaponSpawner.spawnProjectile(projectile, weaponLevel, transform.position, transform.rotation, transform.right * 7, gameObject);
 					SoundManagerScript.playSound("bowFire");
 					GetComponent<SpriteRenderer>().sprite = unloadedSprite;
@@ -145,8 +142,8 @@ public class WeaponHandler : MonoBehaviour
 		}
 	}
 
-	//this sends a damage message for the health for the enemy
-	private void OnCollisionEnter2D(Collision2D collision)
+    //this sends a damage message for the health for the enemy
+    private void OnCollisionEnter2D(Collision2D collision)
     {
 		var part = collision.gameObject;
 		if (part.GetComponent<WeaponHandler>() != null)
