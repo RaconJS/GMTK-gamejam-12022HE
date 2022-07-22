@@ -92,13 +92,12 @@ public class enemyMovement : MonoBehaviour
 				transform.localScale = new Vector3(-1, 1, 1);
 			}
 
-			GetComponent<Rigidbody2D>().angularVelocity = 0;
-			GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
+			GetComponent<Rigidbody2D>().angularVelocity = moveDirection * moveSpeed;
 
 		}
 
 		//var v = GetComponent<Rigidbody2D>().velocity;
-		if (isActive)
+		if (isActive && groundInfo.transform != null)
 		{
 			//rb.velocity=new Vector2(moveDirection*moveSpeed,v.y);
 			GetComponent<Rigidbody2D>().angularVelocity = moveDirection * moveSpeed;

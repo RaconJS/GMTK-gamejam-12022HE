@@ -115,8 +115,11 @@ public class WeaponHandler : MonoBehaviour
 		if (isPickedUp)
 		{
 
-			GetComponent<Rigidbody2D>().velocity = ((player.GetComponent<playerTurn>().handPos + player.transform.position) - transform.position) * 60;
-			GetComponent<Rigidbody2D>().angularVelocity = (player.GetComponent<playerTurn>().handRot - GetComponent<Rigidbody2D>().rotation) * 2;
+			//GetComponent<Rigidbody2D>().velocity = ((player.GetComponent<playerTurn>().handPos + player.transform.position) - transform.position) * 60;
+			transform.position = player.GetComponent<playerTurn>().handPos + player.transform.position;
+			//GetComponent<Rigidbody2D>().angularVelocity = (player.GetComponent<playerTurn>().handRot - GetComponent<Rigidbody2D>().rotation) * 2;
+			transform.rotation = player.GetComponent<playerTurn>().handRot;//Quaternion.Euler(0, 0, GetComponent<playerTurn>().handRot);//transform.right = Vector3.Slerp(transform.right, GetComponent<playerTurn>().handRotVec.normalized, Time.fixedDeltaTime);
+			GetComponent<Rigidbody2D>().gravityScale = 0;
 
 			if (isRanged)
 			{
@@ -148,7 +151,7 @@ public class WeaponHandler : MonoBehaviour
 		var part = collision.gameObject;
 		if (part.GetComponent<WeaponHandler>() != null)
 		{
-			if (isProjectile)
+			if (isProjectile || isPickedUp)
 			{
 				Physics2D.IgnoreCollision(part.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 			}
@@ -197,9 +200,7 @@ public class WeaponHandler : MonoBehaviour
 					heldObject.GetComponent<WeaponHandler>().pickup(false);
 					heldObject.transform.parent = transform.parent;
 					heldObject.GetComponent<Rigidbody2D>().gravityScale = 1;
-					Vector2 launchVelocity = (Random.insideUnitCircle * 5);
-					launchVelocity = new Vector2(Mathf.Abs(launchVelocity.x), launchVelocity.y);
-					heldObject.GetComponent<Rigidbody2D>().velocity = launchVelocity;
+					heldObject.GetComponent<Rigidbody2D>().velocity = (player.GetComponent<playerTurn>().handPos - player.transform.position)*5;
 					Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), heldObject.GetComponent<Collider2D>(), false);
 
 					GetComponent<WeaponHandler>().pickup(true);

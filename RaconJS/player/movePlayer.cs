@@ -140,10 +140,14 @@ public class movePlayer : MonoBehaviour
                 if (direction.x < 0)
                 {
                     transform.localScale = new Vector3(-1, 1, 1);
+                    GetComponent<playerTurn>().handPos = new Vector3(-0.3f, 0, 0);
+                    GetComponent<playerTurn>().handRot = Quaternion.Euler(0, 0, -45);
                 }
                 else if (direction.x > 0)
                 {
                     transform.localScale = new Vector3(1, 1, 1);
+                    GetComponent<playerTurn>().handPos = new Vector3(0.3f, 0, 0);
+                    GetComponent<playerTurn>().handRot = Quaternion.Euler(0, 0, 45);
                 }
                 isMoving = false;
                 isLanding=1;

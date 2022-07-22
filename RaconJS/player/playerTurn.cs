@@ -17,7 +17,9 @@ public class playerTurn : MonoBehaviour
 	public float actionsLeft;
 	bool waitingForRoll;
 	public Vector3 handPos;
-	public float handRot;
+	//public float handRot;
+	public Quaternion handRot;
+	//public Vector3 handRotVec;
 	public GameObject holdingWepn;
 
 
@@ -26,9 +28,11 @@ public class playerTurn : MonoBehaviour
 	{
 
 		handPos = new Vector3(0.3f, 0, 0);
-		handRot = 45;
+		//handRot = 45;
+		handRot = Quaternion.Euler(0, 0, 45);
+		//handRotVec = new Vector3(1, 1, 0);
 
-		waitingForRoll=false;
+		waitingForRoll =false;
 		mover=GetComponent<movePlayer>();
 		fighter=GetComponent<playerFight>();
 		diceGun = GameObject.Find("Dice Gun").GetComponent<DieLauncher>();
