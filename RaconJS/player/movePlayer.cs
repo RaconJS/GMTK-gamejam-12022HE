@@ -10,8 +10,8 @@ public class movePlayer : MonoBehaviour
     public bool isMoving;
     public bool isActive;
     public float landingTime=2f;
-    private KeyCode keyReload = KeyCode.R;
-    private KeyCode keyLaunch = KeyCode.E;
+    //private KeyCode keyReload = KeyCode.R;
+    private KeyCode keyLaunch = KeyCode.Space;
     private KeyCode keyUp = KeyCode.W;
     private KeyCode keyDown = KeyCode.S;
     private KeyCode keyLeft = KeyCode.A;

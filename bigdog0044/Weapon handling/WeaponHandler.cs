@@ -14,11 +14,12 @@ public class WeaponHandler : MonoBehaviour
 	//private PolygonCollider2D collider;
 	public bool isRanged;
 	public bool isProjectile;
-	public Sprite unloadedSprite;
-	public Sprite loadedSprite;
+	public List<Sprite> spriteFrames;
+	public int rangedShootCooldown = 50;
 	public string projectile;
 	public int projFireCount = 0;
 	private WeaponSpawner weaponSpawner;
+	private int pickupCooldown;
 
 
 	private void Awake()
@@ -33,6 +34,7 @@ public class WeaponHandler : MonoBehaviour
 		player = GameObject.Find("player");
 		weaponSpawner = GameObject.Find("Weapon Spawner").GetComponent<WeaponSpawner>(); ;
 		//Physics.IgnoreCollision(player.GetComponent<Collider>(), GetComponent<Collider>(), false);
+		pickupCooldown = 0;
 
 	}
 
@@ -72,8 +74,9 @@ public class WeaponHandler : MonoBehaviour
 		isRanged = isRanged1;
         
 		if (isRanged1)
-        {
-			unloadedSprite = GetComponent<SpriteRenderer>().sprite;
+		{
+			spriteFrames = new List<Sprite>();
+			spriteFrames.Add(GetComponent<SpriteRenderer>().sprite);
 		}
 	}
 
@@ -82,9 +85,9 @@ public class WeaponHandler : MonoBehaviour
 		isProjectile = isProjectile1;
 	}
 
-	public void addLoadedSprite(Sprite sprite)
+	public void addSpriteFrame(Sprite sprite)
 	{
-		loadedSprite = sprite;
+		spriteFrames.Add(sprite);
 	}
 
 	public void addProjectile(string projectile1)
@@ -97,8 +100,24 @@ public class WeaponHandler : MonoBehaviour
 		isPickedUp = picked;
 	}
 
-	// Update is called once per frame
-	void FixedUpdate()
+	private void Update()
+	{
+		if (isPickedUp)
+		{
+
+			transform.position = player.GetComponent<playerTurn>().hand.position;
+			transform.rotation = player.GetComponent<playerTurn>().hand.rotation;
+			transform.localScale = player.transform.localScale;
+
+			GetComponent<Rigidbody2D>().velocity = Vector3.Lerp(transform.position, player.GetComponent<playerTurn>().hand.position, Time.deltaTime);
+			Vector3 _vec = Vector3.Slerp(transform.rotation.eulerAngles, player.GetComponent<playerTurn>().hand.rotation.eulerAngles, Time.deltaTime);
+			GetComponent<Rigidbody2D>().angularVelocity = Mathf.Rad2Deg * Mathf.Atan2(_vec.y, _vec.x);
+
+		}
+	}
+
+    // Update is called once per frame
+    void FixedUpdate()
 	{
 		if (isProjectile)
 		{
@@ -115,25 +134,40 @@ public class WeaponHandler : MonoBehaviour
 		if (isPickedUp)
 		{
 
-			GetComponent<Rigidbody2D>().velocity = ((player.GetComponent<playerTurn>().handPos + player.transform.position) - transform.position) * 60;
-			GetComponent<Rigidbody2D>().angularVelocity = (player.GetComponent<playerTurn>().handRot - GetComponent<Rigidbody2D>().rotation) * 2;
-
 			if (isRanged)
 			{
 
-				if (projFireCount > 49)
+				if (projFireCount > rangedShootCooldown)
 				{
-					//Debug.Log(new Vector3(transform.forward.x * 100, transform.forward.y * 100, 0).ToString());
-					weaponSpawner.spawnProjectile(projectile, weaponLevel, transform.position, transform.rotation, transform.right * 7, gameObject);
+                    //Debug.Log(new Vector3(transform.forward.x * 100, transform.forward.y * 100, 0).ToString());
+                    if (player.transform.localScale.x == 1)
+                    {
+						weaponSpawner.spawnProjectile(projectile, weaponLevel, transform.position, Quaternion.Euler(new Vector3(
+							transform.rotation.eulerAngles.x,
+							transform.rotation.eulerAngles.y,
+							transform.rotation.eulerAngles.z)), transform.right * 7, gameObject);
+					}
+                    else
+                    {
+						weaponSpawner.spawnProjectile(projectile, weaponLevel, transform.position, Quaternion.Euler(new Vector3(
+							transform.rotation.eulerAngles.x,
+							transform.rotation.eulerAngles.y,
+							150 - transform.rotation.eulerAngles.z)), -transform.right * 7, gameObject);
+					}
+					
 					SoundManagerScript.playSound("bowFire");
-					GetComponent<SpriteRenderer>().sprite = unloadedSprite;
 					projFireCount = 0;
 				}
 
-				if (projFireCount > 25)
-				{
-					GetComponent<SpriteRenderer>().sprite = loadedSprite;
-				}
+                for (int i = 0; i < spriteFrames.Count; i++)
+                {
+
+                    if (projFireCount + 1 > i * (rangedShootCooldown / spriteFrames.Count))
+                    {
+						GetComponent<SpriteRenderer>().sprite = spriteFrames[i];
+					}
+
+                }
 
 				projFireCount++;
 
@@ -142,13 +176,41 @@ public class WeaponHandler : MonoBehaviour
 		}
 	}
 
-    //this sends a damage message for the health for the enemy
-    private void OnCollisionEnter2D(Collision2D collision)
+	public void dropWeapon()
+	{
+
+		GameObject heldObject = player.GetComponent<playerTurn>().holdingWepn;
+
+		Debug.Log("dropped " + heldObject.name);
+
+		Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), heldObject.GetComponent<Collider2D>(), false);
+		heldObject.GetComponent<WeaponHandler>().pickup(false);
+		heldObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+		if (heldObject.GetComponent<WeaponHandler>().isRanged)
+		{
+			heldObject.GetComponent<SpriteRenderer>().sprite = heldObject.GetComponent<WeaponHandler>().spriteFrames[0];
+		}
+
+		if (player.transform.localScale.x == 1)
+		{
+			heldObject.GetComponent<Rigidbody2D>().velocity = transform.right * 7;
+		}
+		else
+		{
+			heldObject.GetComponent<Rigidbody2D>().velocity = -transform.right * 7;
+		}
+
+		player.GetComponent<playerTurn>().holdingWepn = null;
+
+	}
+
+	//this sends a damage message for the health for the enemy
+	private void OnCollisionEnter2D(Collision2D collision)
     {
 		var part = collision.gameObject;
 		if (part.GetComponent<WeaponHandler>() != null)
 		{
-			if (isProjectile)
+			if (isProjectile || isPickedUp)
 			{
 				Physics2D.IgnoreCollision(part.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 			}
@@ -165,7 +227,7 @@ public class WeaponHandler : MonoBehaviour
 				}
 			}
 		}
-		else if (part.GetComponent<playerTurn>() != null)
+		else if (part.GetComponent<playerTurn>() != null && pickupCooldown < 10)
 		{
 			Physics2D.IgnoreCollision(part.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 
@@ -181,11 +243,11 @@ public class WeaponHandler : MonoBehaviour
 
 					Debug.Log("picked up " + gameObject.name);
 
+					//Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 					GetComponent<WeaponHandler>().pickup(true);
-					transform.parent = player.transform;
+					//transform.parent = player.transform;
 					GetComponent<Rigidbody2D>().gravityScale = 0.2f;
 					player.GetComponent<playerTurn>().holdingWepn = gameObject;
-					Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 					SoundManagerScript.playSound("pickUpItem");
 
 				}
@@ -194,19 +256,32 @@ public class WeaponHandler : MonoBehaviour
 
 					Debug.Log("picked up " + gameObject.name + ", dropped " + heldObject.name);
 
-					heldObject.GetComponent<WeaponHandler>().pickup(false);
-					heldObject.transform.parent = transform.parent;
-					heldObject.GetComponent<Rigidbody2D>().gravityScale = 1;
-					Vector2 launchVelocity = (Random.insideUnitCircle * 5);
-					launchVelocity = new Vector2(Mathf.Abs(launchVelocity.x), launchVelocity.y);
-					heldObject.GetComponent<Rigidbody2D>().velocity = launchVelocity;
+					Physics2D.IgnoreCollision(heldObject.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 					Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), heldObject.GetComponent<Collider2D>(), false);
+					heldObject.GetComponent<WeaponHandler>().pickup(false);
+					//heldObject.transform.parent = transform.parent;
+					heldObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+					//heldObject.GetComponent<Rigidbody2D>().velocity = (player.GetComponent<playerTurn>().hand.position - player.transform.position) * 5;
+                    if (heldObject.GetComponent<WeaponHandler>().isRanged)
+                    {
+						heldObject.GetComponent<SpriteRenderer>().sprite = heldObject.GetComponent<WeaponHandler>().spriteFrames[0];
+					}
+
+					if (player.transform.localScale.x == 1)
+					{
+						heldObject.transform.position += heldObject.transform.right;
+						heldObject.GetComponent<Rigidbody2D>().velocity = transform.right * 7;
+					}
+					else
+					{
+						heldObject.transform.position -= heldObject.transform.right;
+						heldObject.GetComponent<Rigidbody2D>().velocity = -transform.right * 7;
+					}
 
 					GetComponent<WeaponHandler>().pickup(true);
-					transform.parent = player.transform;
+					//transform.parent = player.transform;
 					GetComponent<Rigidbody2D>().gravityScale = 0.2f;
 					player.GetComponent<playerTurn>().holdingWepn = gameObject;
-					Physics2D.IgnoreCollision(player.GetComponent<Collider2D>(), GetComponent<Collider2D>(), true);
 					SoundManagerScript.playSound("pickUpItem");
 
 				}
