@@ -14,8 +14,8 @@ public class WeaponHandler : MonoBehaviour
 	//private PolygonCollider2D collider;
 	public bool isRanged;
 	public bool isProjectile;
-	public Sprite unloadedSprite;
-	public Sprite loadedSprite;
+	public List<Sprite> spriteFrames;
+	public int rangedShootCooldown = 50;
 	public string projectile;
 	public int projFireCount = 0;
 	private WeaponSpawner weaponSpawner;
@@ -72,8 +72,9 @@ public class WeaponHandler : MonoBehaviour
 		isRanged = isRanged1;
         
 		if (isRanged1)
-        {
-			unloadedSprite = GetComponent<SpriteRenderer>().sprite;
+		{
+			spriteFrames = new List<Sprite>();
+			spriteFrames.Add(GetComponent<SpriteRenderer>().sprite);
 		}
 	}
 
@@ -82,9 +83,9 @@ public class WeaponHandler : MonoBehaviour
 		isProjectile = isProjectile1;
 	}
 
-	public void addLoadedSprite(Sprite sprite)
+	public void addSpriteFrame(Sprite sprite)
 	{
-		loadedSprite = sprite;
+		spriteFrames.Add(sprite);
 	}
 
 	public void addProjectile(string projectile1)
@@ -124,19 +125,23 @@ public class WeaponHandler : MonoBehaviour
 			if (isRanged)
 			{
 
-				if (projFireCount > 49)
+				if (projFireCount > rangedShootCooldown)
 				{
 					//Debug.Log(new Vector3(transform.forward.x * 100, transform.forward.y * 100, 0).ToString());
 					weaponSpawner.spawnProjectile(projectile, weaponLevel, transform.position, transform.rotation, transform.right * 7, gameObject);
 					SoundManagerScript.playSound("bowFire");
-					GetComponent<SpriteRenderer>().sprite = unloadedSprite;
 					projFireCount = 0;
 				}
 
-				if (projFireCount > 25)
-				{
-					GetComponent<SpriteRenderer>().sprite = loadedSprite;
-				}
+                for (int i = 0; i < spriteFrames.Count; i++)
+                {
+
+                    if (projFireCount + 1 > i * (rangedShootCooldown / spriteFrames.Count))
+                    {
+						GetComponent<SpriteRenderer>().sprite = spriteFrames[i];
+					}
+
+                }
 
 				projFireCount++;
 
