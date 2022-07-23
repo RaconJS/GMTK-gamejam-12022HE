@@ -136,12 +136,7 @@ public class WeaponSpawner : MonoBehaviour
                     weapons.Add(weapon);
 
                     break;
-                case "B":
-
-                    weapons.Find(i => i.name == name[0] + "_" + name[2]).GetComponent<WeaponHandler>().addLoadedSprite(s);
-
-                    break;
-                case "C":
+                case "proj":
 
                     GameObject projectile = Instantiate(weaponBase, new Vector3(0, 0, 0), Quaternion.identity);
                     projectile.name = name[0] + "_projectile_" + name[2];
@@ -156,6 +151,9 @@ public class WeaponSpawner : MonoBehaviour
 
                     break;
                 default:
+
+                    weapons.Find(i => i.name == name[0] + "_" + name[2]).GetComponent<WeaponHandler>().addSpriteFrame(s);
+
                     break;
             }
 
