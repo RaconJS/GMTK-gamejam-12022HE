@@ -10,8 +10,8 @@ public class movePlayer : MonoBehaviour
     public bool isMoving;
     public bool isActive;
     public float landingTime=2f;
-    private KeyCode keyReload = KeyCode.R;
-    private KeyCode keyLaunch = KeyCode.E;
+    //private KeyCode keyReload = KeyCode.R;
+    private KeyCode keyLaunch = KeyCode.Space;
     private KeyCode keyUp = KeyCode.W;
     private KeyCode keyDown = KeyCode.S;
     private KeyCode keyLeft = KeyCode.A;
@@ -140,14 +140,10 @@ public class movePlayer : MonoBehaviour
                 if (direction.x < 0)
                 {
                     transform.localScale = new Vector3(-1, 1, 1);
-                    GetComponent<playerTurn>().handPos = new Vector3(-0.3f, 0, 0);
-                    GetComponent<playerTurn>().handRot = Quaternion.Euler(0, 0, -45);
                 }
                 else if (direction.x > 0)
                 {
                     transform.localScale = new Vector3(1, 1, 1);
-                    GetComponent<playerTurn>().handPos = new Vector3(0.3f, 0, 0);
-                    GetComponent<playerTurn>().handRot = Quaternion.Euler(0, 0, 45);
                 }
                 isMoving = false;
                 isLanding=1;
