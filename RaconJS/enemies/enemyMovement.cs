@@ -61,43 +61,46 @@ public class enemyMovement : MonoBehaviour
 	void FixedUpdate()
 	{
 
-		RaycastHit2D aheadGroundInfo = Physics2D.Raycast(transform.position + groundDetectionPos, groundDetectionRot * Vector3.down, distance);
-		Debug.DrawRay(transform.position + groundDetectionPos, groundDetectionRot * Vector3.down, Color.green, distance);
-
 		RaycastHit2D groundInfo = Physics2D.Raycast(transform.position, Vector3.down, distance);
-		Debug.DrawRay(transform.position, Vector3.down, Color.blue, distance);
+		//Debug.DrawRay(transform.position, Vector3.down, Color.blue, distance);
 
-        if (groundInfo.transform == null)
-        {
-			Debug.Log("HELPAMFALLING");
-        }
-		else if (aheadGroundInfo.transform == null)
+		RaycastHit2D aheadGroundInfo = Physics2D.Raycast(transform.position + groundDetectionPos, groundDetectionRot * Vector3.down, distance);
+		//Debug.DrawRay(transform.position + groundDetectionPos, groundDetectionRot * Vector3.down, Color.green, distance);
+
+        if (Mathf.Abs(GetComponent<Rigidbody2D>().velocity.y) < 0.5)
 		{
-			Debug.Log("i haz seen hole!1!");
-
-			if (movingRight)
+			if (groundInfo.transform == null)
 			{
-				groundDetectionRot.eulerAngles = new Vector2(0, 180);
-				groundDetectionPos *= -1;//new Vector3(-0.5f, 0, 0);
-				movingRight = false;
-				moveDirection *= -1;
-				transform.localScale = new Vector3(1, 1, 1);
+				//Debug.Log("HELPAMFALLING");
 			}
-			else
+			else if (aheadGroundInfo.transform == null)
 			{
-				groundDetectionRot.eulerAngles = new Vector2(0, 360);
-				groundDetectionPos *= -1;//new Vector3(0.5f, 0, 0);
-				movingRight = true;
-				moveDirection *= -1;
-				transform.localScale = new Vector3(-1, 1, 1);
+				//Debug.Log("i haz seen hole!1!");
+
+				if (movingRight)
+				{
+					groundDetectionRot.eulerAngles = new Vector2(0, 180);
+					groundDetectionPos *= -1;//new Vector3(-0.5f, 0, 0);
+					movingRight = false;
+					moveDirection *= -1;
+					transform.localScale = new Vector3(1, 1, 1);
+					GetComponent<Rigidbody2D>().angularVelocity = moveDirection * moveSpeed;
+				}
+				else
+				{
+					groundDetectionRot.eulerAngles = new Vector2(0, 360);
+					groundDetectionPos *= -1;//new Vector3(0.5f, 0, 0);
+					movingRight = true;
+					moveDirection *= -1;
+					transform.localScale = new Vector3(-1, 1, 1);
+					GetComponent<Rigidbody2D>().angularVelocity = moveDirection * moveSpeed;
+				}
+
 			}
-
-			GetComponent<Rigidbody2D>().angularVelocity = moveDirection * moveSpeed;
-
 		}
 
 		//var v = GetComponent<Rigidbody2D>().velocity;
-		if (isActive && groundInfo.transform != null)
+		if (isActive && aheadGroundInfo.transform != null)
 		{
 			//rb.velocity=new Vector2(moveDirection*moveSpeed,v.y);
 			GetComponent<Rigidbody2D>().angularVelocity = moveDirection * moveSpeed;
